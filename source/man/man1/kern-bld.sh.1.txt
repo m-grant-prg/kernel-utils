@@ -1,0 +1,78 @@
+NAME
+kern-bld.sh - build a kernel
+SYNOPSIS
+kern-bld.sh [OPTIONS] kerneldirectory
+DESCRIPTION
+This script will build a new, from scratch, kernel or update an existing kernel.
+Run with the appropriate privileges it can also install the kernel. The two
+directory parameters, which can be persisted, should point to a directory above
+which a source directory and build directory are expected. The kerneldirectory
+specified on the command line is then appended to this path. eg:-
+
+kern-bld.sh -ups /home/mg/kernel -o /home/mg/kernel stable
+
+will build a kernel from source located in /home/mg/kernel/source/stable putting
+the built objects in /home/mg/kernel/build/stable. It will also store the 2
+parameters to use as defaults.
+
+When building a new kernel the following tasks are performed:-
+
+a) make distclean is run.
+
+b) an architecture specific default Ubuntu config file is copied in as .config
+this file is named ubuntu-amd64-config.flavour.generic and should exist in the
+sourcedir
+
+c) make menuconfig is run so changes to the config can be made
+
+d) lsmod is run ignoring Virtualbox modules, the output is then used in
+
+e) make localmodconfig is run using the above lsmod output
+
+f) make -j4 is run
+
+When updating a kernel only make -j4 is run.
+
+OPTIONS
+-h, --help prints usage information
+
+-i, --install install the kernel and kernel modules
+
+-n, --new build a new kernel from scratch using a new copy of the .config file
+
+-o, --outputdir specify a build output directory
+
+-p, --persist save the --outputdir and --sourcedir values for future defaults
+
+-s, --sourcedir specify a source directory
+
+-u, --update update a previously built kernel
+
+-V, --version prints version information
+EXIT STATUS
+0 & 64 - 113 as per C/C++ standard
+
+0 - success
+
+64 - Invalid arguments
+
+66 - File access error
+
+67 - trap received
+
+77 - Permissions error
+AUTHOR
+Written by Mark Grant.
+REPORTING BUGS
+Report bugs to <m.grant.prg@gmail.com>
+COPYRIGHT
+Copyright 2016 Mark Grant.
+.br
+License GPLv3+: GNU GPL version 3 or later
+.br
+<http://gnu.org/licenses/gpl.html>.
+.br
+This is free software: you are free to change and redistribute it.
+.br
+There is NO WARRANTY, to the extent permitted by law.
+SEE ALSO

@@ -1,0 +1,66 @@
+##########################################################################
+##									##
+## File ID: ./.gitignore						##
+## Author: Mark Grant							##
+##									##
+## Purpose:								##
+##	Standard gitignore file from the AutoToolsTemplate project.	##
+##									##
+##########################################################################
+
+##########################################################################
+##									##
+## Changelog								##
+##									##
+## Date		Author	Version	Description				##
+##									##
+## 19/06/2016	MG	1.0.1	First in-file versioned release.	##
+##									##
+##########################################################################
+
+
+# AutoTools
+/autom4te.cache/
+/aclocal.*
+/m4/
+/config.*
+/configure
+**/Makefile
+**/Makefile.in
+/missing
+/INSTALL
+/install-sh
+/*.log
+/*.scan
+/libtool
+/ltmain.sh
+/ar-lib
+
+# Tarballs
+/*.tar.gz
+
+# Config files directory in this template
+/conffiles
+
+# Backup files
+**/*~
+
+# C
+/depcomp
+/compile
+**/.deps/
+**/*.o
+**/*.lo
+**/*.la
+**/.libs/
+
+# NetBeans
+/dist
+/nbproject/private/
+/distribution
+**/Version.java
+
+# Common
+/build
+/patches
+/target
