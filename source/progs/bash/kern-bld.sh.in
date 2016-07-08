@@ -45,6 +45,9 @@
 ## 08/07/2016	MG	1.0.2	Change command line parameters from	##
 ##				objectdir & sourcedir to object-dir &	##
 ##				source-dir.				##
+##				Remove hard-coded source and build	##
+##				directories from path. Now just uses	##
+##				object-dir & source-dir as entered.	##
 ##									##
 ##########################################################################
 
@@ -274,26 +277,26 @@ fi
 
 # Now perform the requests
 currentdir=$(pwd)
-cd $sourcedir/source/$abovebasedir
+cd $sourcedir/$abovebasedir
 std_cmd_err_handler $?
 
 if [ $new = TRUE ]
 then
 	output "Performing make distclean..." 0
-	make O=$objectdir/build/$abovebasedir distclean
+	make O=$objectdir/$abovebasedir distclean
 	status=$?
 	output "make distclean completed with status "$status $status
 	std_cmd_err_handler $status
 
 	output "Copy in standard Ubuntu default .config file..." 0
 	cp -v $sourcedir/ubuntu-amd64-config.flavour.generic \
-		$objectdir/build/$abovebasedir/.config
+		$objectdir/$abovebasedir/.config
 	status=$?
 	output "Copy completed with status "$status $status
 	std_cmd_err_handler $status
 
 	output "Performing make menuconfig..." 0
-	make O=$objectdir/build/$abovebasedir menuconfig
+	make O=$objectdir/$abovebasedir menuconfig
 	status=$?
 	output "make menuconfig completed with status "$status $status
 	std_cmd_err_handler $status
@@ -305,7 +308,7 @@ then
 	std_cmd_err_handler $status
 
 	output "Performing make localmodconfig..." 0
-	make O=$objectdir/build/$abovebasedir LSMOD=$sourcedir/mylsmod.txt \
+	make O=$objectdir/$abovebasedir LSMOD=$sourcedir/mylsmod.txt \
 		localmodconfig
 	status=$?
 	output "make localmodconfig completed with status "$status $status
@@ -315,7 +318,7 @@ fi
 if [ $new = TRUE -o $update = TRUE ]
 then
 	output "Performing make -j4..." 0
-	make O=$objectdir/build/$abovebasedir -j4
+	make O=$objectdir/$abovebasedir -j4
 	status=$?
 	output "make -j4 completed with status "$status $status
 	std_cmd_err_handler $status
@@ -324,7 +327,7 @@ fi
 if [ $install = TRUE ]
 then
 	output "Performing kernel install..." 0
-	make O=$objectdir/build/$abovebasedir modules_install install
+	make O=$objectdir/$abovebasedir modules_install install
 	status=$?
 	output "Kernel install completed with status "$status $status
 	std_cmd_err_handler $status
