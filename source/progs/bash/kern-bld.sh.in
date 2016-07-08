@@ -48,6 +48,9 @@
 ##				Remove hard-coded source and build	##
 ##				directories from path. Now just uses	##
 ##				object-dir & source-dir as entered.	##
+##				Due to above change the lsmod input file##
+##				is now created in the actual source	##
+##				directory, so remove after use.		##
 ##									##
 ##########################################################################
 
@@ -312,6 +315,12 @@ then
 		localmodconfig
 	status=$?
 	output "make localmodconfig completed with status "$status $status
+	std_cmd_err_handler $status
+
+	output "Remove lsmod input file..." 0
+	rm -v $sourcedir/mylsmod.txt
+	status=$?
+	output "lsmod input file removal completed with status "$status $status
 	std_cmd_err_handler $status
 fi
 
