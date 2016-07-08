@@ -19,10 +19,10 @@
 ##	-h or --help Displays usage information.			##
 ##	-i or --install Install the built kernel.			##
 ##	-n or --new Build new kernel from scratch.			##
-##	-o or --objectdir 'objectdirectory' Parallel build base 	##
+##	-o or --object-dir 'object-directory' Parallel build base 	##
 ##		directory for object files.				##
 ##	-p or --persist Saves command line options for future use.	##
-##	-s or --sourcedir 'sourcedirectory' Base directory for source.	##
+##	-s or --source-dir 'source-directory' Base directory for source.##
 ##	-u or --update Update the built kernel.				##
 ##	-V or --version Displays version information.			##
 ##									##
@@ -42,6 +42,9 @@
 ## Date		Author	Version	Description				##
 ##									##
 ## 06/07/2016	MG	1.0.1	Created.				##
+## 08/07/2016	MG	1.0.2	Change command line parameters from	##
+##				objectdir & sourcedir to object-dir &	##
+##				source-dir.				##
 ##									##
 ##########################################################################
 
@@ -50,7 +53,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.1"				# set version variable
+version="1.0.2"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
@@ -138,7 +141,7 @@ fi
 
 # Process command line arguments with GNU getopt.
 GETOPTTEMP=`getopt -o hino:ps:uV \
-	--long help,install,new,objectdir:,persist,sourcedir:,update,version \
+	--long help,install,new,object-dir:,persist,source-dir:,update,version \
 	-n "$0" -- "$@"`
 std_cmd_err_handler $?
 
@@ -155,13 +158,13 @@ do
 		echo "	'-h or --help' Displays usage information."
 		echo "	'-i or --install' Install the built kernel."
 		echo "	'-n or --new' Build new kernel from scratch."
-		echo "	'-o or --objectdir objectdirectory' Parallel build " \
+		echo "	'-o or --object-dir object-directory' Parallel build " \
 					"base directory for"
 		echo "		 object files."
 		echo "		 Can be persisted with -p."
 		echo "	'-p or --persist' Saves command line options for " \
 					"future use."
-		echo "	'-s or --sourcedir sourcedirectory' Base directory " \
+		echo "	'-s or --source-dir source-directory' Base directory " \
 					"for source."
 		echo "		 Can be persisted with -p."
 		echo "	'-u or --update' Update the built kernel."
@@ -178,7 +181,7 @@ do
 		new=TRUE
 		shift
 		;;
-	-o|--objectdir)
+	-o|--object-dir)
 		objectdir=$2
 		shift 2
 		;;
@@ -186,7 +189,7 @@ do
 		persist=TRUE
 		shift
 		;;
-	-s|--sourcedir)
+	-s|--source-dir)
 		sourcedir=$2
 		shift 2
 		;;
