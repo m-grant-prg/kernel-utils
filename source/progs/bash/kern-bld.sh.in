@@ -51,6 +51,9 @@
 ##				Due to above change the lsmod input file##
 ##				is now created in the actual source	##
 ##				directory, so remove after use.		##
+##				Add command line argument option for	##
+##				specifying the kernel config file to	##
+##				copy in.				##
 ##									##
 ##########################################################################
 
@@ -63,7 +66,8 @@ version="1.0.2"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
-conffile=".kern-bld.conf"
+conffile=".kern-bld.conf"		# Conf file for this script
+kernconfigfile=""			# Full path to Kernel config file
 install=FALSE
 new=FALSE
 objectdir=""
@@ -119,6 +123,7 @@ write_file()
 {
 	echo "sourcedir=$sourcedir">>~/.kern-bld.conf
 	echo "objectdir=$objectdir">>~/.kern-bld.conf
+	echo "kernconfigfile=$kernconfigfile">>~/.kern-bld.conf
 }
 
 ##########
@@ -140,14 +145,17 @@ else
 		objectdir)
 			objectdir=${input[1]}
 			;;
+		kernconfigfile)
+			kernconfigfile=${input[1]}
+			;;
 		esac
 	done
 	exec 3<&-
 fi
 
 # Process command line arguments with GNU getopt.
-GETOPTTEMP=`getopt -o hino:ps:uV \
-	--long help,install,new,object-dir:,persist,source-dir:,update,version \
+GETOPTTEMP=`getopt -o c:hino:ps:uV \
+	--long config-file:,help,install,new,object-dir:,persist,source-dir:,update,version \
 	-n "$0" -- "$@"`
 std_cmd_err_handler $?
 
@@ -158,9 +166,18 @@ std_cmd_err_handler $?
 while true
 do
 	case "$1" in
+	-c|--config-file)
+		kernconfigfile=$2
+		shift 2
+		;;
 	-h|--help)
 		echo "Usage is $0 [OPTIONS]"
 		echo "	[OPTIONS] are:-"
+		echo "	'-c or --config-file config-filename' Full path to " \
+					"the kernel config "
+		echo "		 file to be copied in. Only valid with -n " \
+					"--new option."
+		echo "		 Can be persisted with -p."
 		echo "	'-h or --help' Displays usage information."
 		echo "	'-i or --install' Install the built kernel."
 		echo "	'-n or --new' Build new kernel from scratch."
@@ -256,17 +273,32 @@ then
 fi
 
 # Check source directory exists and is readable.
-if [ ! -d "$sourcedir" ]
+if [ ! -d "$sourcedir/$abovebasedir" ]
 then
 	script_exit_code=66
-	output "Source directory not valid." 1
+	output "Source directory not valid - $sourcedir/$abovebasedir" 1
 	script_exit
 fi
 
-if [ ! -r "$sourcedir" ]
+if [ ! -r "$sourcedir/$abovebasedir" ]
 then
 	script_exit_code=77
-	output "Source directory not accessible." 1
+	output "Source directory not accessible - $sourcedir/$abovebasedir" 1
+	script_exit
+fi
+
+# Check kernel config file exists and is readable.
+if [ ! -f "$kernconfigfile" ]
+then
+	script_exit_code=66
+	output "Kernel config file not valid." 1
+	script_exit
+fi
+
+if [ ! -r "$kernconfigfile" ]
+then
+	script_exit_code=77
+	output "Kernel config file not accessible." 1
 	script_exit
 fi
 
@@ -291,9 +323,8 @@ then
 	output "make distclean completed with status "$status $status
 	std_cmd_err_handler $status
 
-	output "Copy in standard Ubuntu default .config file..." 0
-	cp -v $sourcedir/ubuntu-amd64-config.flavour.generic \
-		$objectdir/$abovebasedir/.config
+	output "Copy in kernel .config file..." 0
+	cp -v $kernconfigfile $objectdir/$abovebasedir/.config
 	status=$?
 	output "Copy completed with status "$status $status
 	std_cmd_err_handler $status
