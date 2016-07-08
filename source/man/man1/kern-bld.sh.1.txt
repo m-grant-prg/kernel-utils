@@ -5,23 +5,17 @@ kern-bld.sh [OPTIONS] kerneldirectory
 DESCRIPTION
 This script will build a new, from scratch, kernel or update an existing kernel.
 Run with the appropriate privileges it can also install the kernel. The two
-directory parameters, which can be persisted, should point to a directory above
-which a source directory and build directory are expected. The kerneldirectory
-specified on the command line is then appended to this path. eg:-
-
-kern-bld.sh -ups /home/mg/kernel -o /home/mg/kernel stable
-
-will build a kernel from source located in /home/mg/kernel/source/stable putting
-the built objects in /home/mg/kernel/build/stable. It will also store the 2
-parameters to use as defaults.
+directory parameters, which can be persisted, should point to the location of
+the source and the location of the parallel build target. The kerneldirectory
+specified on the command line is then appended to these paths. The config file
+option, which can be persisted, should point to an existing kernel config file
+which will be copied to the output directory.
 
 When building a new kernel the following tasks are performed:-
 
 a) make distclean is run.
 
-b) an architecture specific default Ubuntu config file is copied in as .config
-this file is named ubuntu-amd64-config.flavour.generic and should exist in the
-sourcedir
+b) a specified kernel config file is copied in as .config
 
 c) make menuconfig is run so changes to the config can be made
 
@@ -29,22 +23,28 @@ d) lsmod is run ignoring Virtualbox modules, the output is then used in
 
 e) make localmodconfig is run using the above lsmod output
 
-f) make -j4 is run
+f) the temporary lsmod input file is removed
+
+g) make -j4 is run
 
 When updating a kernel only make -j4 is run.
 
 OPTIONS
+-c, --config-file full path to the kernel config file to be copied in. Only
+valid with -n option, not -u
+
 -h, --help prints usage information
 
 -i, --install install the kernel and kernel modules
 
 -n, --new build a new kernel from scratch using a new copy of the .config file
 
--o, --outputdir specify a build output directory
+-o, --output-dir specify a build output directory
 
--p, --persist save the --outputdir and --sourcedir values for future defaults
+-p, --persist save the --output-dir, --source-dir and --config-file values for
+future defaults
 
--s, --sourcedir specify a source directory
+-s, --source-dir specify a source directory
 
 -u, --update update a previously built kernel
 
@@ -61,6 +61,13 @@ EXIT STATUS
 67 - trap received
 
 77 - Permissions error
+
+EXAMPLE
+kern-bld.sh -ups /home/mg/kernel/source -o /home/mg/kernel/build stable
+
+will build a kernel from source located in /home/mg/kernel/source/stable putting
+the built objects in /home/mg/kernel/build/stable. It will also store the 2
+parameters to use as defaults.
 AUTHOR
 Written by Mark Grant.
 REPORTING BUGS
