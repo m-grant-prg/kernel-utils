@@ -16,6 +16,8 @@
 ##                                                              	##
 ## Syntax:      kern-bld.sh [OPTIONS]					##
 ##			[OPTIONS] are:-					##
+##	-c or --config-file 'config-filename' Full path to the kernel	##
+##		config file to be copied in. Only valid with -n option.	##
 ##	-h or --help Displays usage information.			##
 ##	-i or --install Install the built kernel.			##
 ##	-n or --new Build new kernel from scratch.			##
