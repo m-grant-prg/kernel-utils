@@ -1,2 +1,13 @@
+Release 1.0.2 2016-07-08
+Change command line parameters from objectdir & sourcedir to object-dir &
+source-dir.
+Remove hard-coded source and build directories from path. Now just uses
+object-dir & source-dir as entered.
+Due to above change the lsmod input file is now created in the actual source
+directory, so remove after use.
+Add command line argument option for specifying the kernel config file to copy
+in.
+Ensure cd back to original directory.
+
 Release 1.0.1 2016-07-07
 Initial release.
