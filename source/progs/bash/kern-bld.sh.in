@@ -56,6 +56,7 @@
 ##				Add command line argument option for	##
 ##				specifying the kernel config file to	##
 ##				copy in.				##
+##				Ensure cd back to original directory.	##
 ##									##
 ##########################################################################
 
@@ -76,6 +77,8 @@ objectdir=""
 persist=FALSE
 sourcedir=""
 update=FALSE
+
+currentdir=$(pwd)
 
 
 ###############
@@ -106,6 +109,7 @@ std_cmd_err_handler()
 # Standard function to tidy up and return exit code
 script_exit()
 {
+	cd $currentdir
 	exit $script_exit_code
 }
 
@@ -313,7 +317,6 @@ fi
 
 
 # Now perform the requests
-currentdir=$(pwd)
 cd $sourcedir/$abovebasedir
 std_cmd_err_handler $?
 
@@ -374,8 +377,6 @@ then
 	output "Kernel install completed with status "$status $status
 	std_cmd_err_handler $status
 fi
-
-cd $currentdir
 
 
 # And exit
