@@ -1,3 +1,6 @@
+Release 1.0.3 2016-07-09
+Use build AOT source directory for temporary lsmod file.
+
 Release 1.0.2 2016-07-08
 Change command line parameters from objectdir & sourcedir to object-dir &
 source-dir.
