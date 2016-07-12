@@ -1,3 +1,7 @@
+2016-07-12 v 1.0.4 Mark Grant <m.grant.prg@gmail.com>
+	*  Change make install to use sudo. Allows new / update options to
+	combine with install option.
+
 2016-07-09 v 1.0.3 Mark Grant <m.grant.prg@gmail.com>
 	*  Use build AOT source directory for temporary lsmod file.
 
