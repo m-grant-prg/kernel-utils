@@ -60,6 +60,9 @@
 ## 09/07/2016	MG	1.0.3	Create and remove temporary lsmod file	##
 ##				in the build directory instead of the	##
 ##				source directory.			##
+## 12/07/2016	MG	1.0.4	Kernel install needs root privileges so	##
+##				using sudo eliminates requirement to do	##
+##				so from shell prompt.			##
 ##									##
 ##########################################################################
 
@@ -68,7 +71,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.3"				# set version variable
+version="1.0.4"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
@@ -375,7 +378,7 @@ fi
 if [ $install = TRUE ]
 then
 	output "Performing kernel install..." 0
-	make O=$objectdir/$abovebasedir modules_install install
+	sudo make O=$objectdir/$abovebasedir modules_install install
 	status=$?
 	output "Kernel install completed with status "$status $status
 	std_cmd_err_handler $status
