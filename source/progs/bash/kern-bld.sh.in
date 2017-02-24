@@ -171,8 +171,8 @@ fi
 
 # Process command line arguments with GNU getopt.
 GETOPTTEMP=`getopt -o c:hino:ps:uV \
-	--long config-file:,help,install,new,object-dir:,persist,source-dir:,\
-	update,version -n "$0" -- "$@"`
+	--long config-file:,help,install,new,object-dir:,persist,source-dir:,update,version \
+	-n "$0" -- "$@"`
 std_cmd_err_handler $?
 
 eval set -- "$GETOPTTEMP"
