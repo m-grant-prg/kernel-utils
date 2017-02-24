@@ -63,6 +63,9 @@
 ## 12/07/2016	MG	1.0.4	Kernel install needs root privileges so	##
 ##				using sudo eliminates requirement to do	##
 ##				so from shell prompt.			##
+## 23/02/2017	MG	1.0.5	Add make silentoldconfig and make	##
+##				prepare to both new and update to check	##
+##				for new config options.			##
 ##									##
 ##########################################################################
 
@@ -71,7 +74,7 @@
 ## Init variables ##
 ####################
 script_exit_code=0
-version="1.0.4"				# set version variable
+version="1.0.5"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
@@ -138,6 +141,7 @@ write_file()
 	echo "kernconfigfile=$kernconfigfile">>~/.kern-bld.conf
 }
 
+
 ##########
 ## Main ##
 ##########
@@ -167,8 +171,8 @@ fi
 
 # Process command line arguments with GNU getopt.
 GETOPTTEMP=`getopt -o c:hino:ps:uV \
-	--long config-file:,help,install,new,object-dir:,persist,source-dir:,update,version \
-	-n "$0" -- "$@"`
+	--long config-file:,help,install,new,object-dir:,persist,source-dir:,\
+	update,version -n "$0" -- "$@"`
 std_cmd_err_handler $?
 
 eval set -- "$GETOPTTEMP"
@@ -328,37 +332,31 @@ std_cmd_err_handler $?
 
 if [ $new = TRUE ]
 then
+	# Clean
 	output "Performing make distclean..." 0
 	make O=$objectdir/$abovebasedir distclean
 	status=$?
 	output "make distclean completed with status "$status $status
 	std_cmd_err_handler $status
 
+	# Copy config file
 	output "Copy in kernel .config file..." 0
 	cp -v $kernconfigfile $objectdir/$abovebasedir/.config
 	status=$?
 	output "Copy completed with status "$status $status
 	std_cmd_err_handler $status
 
-	output "Performing make menuconfig..." 0
-	make O=$objectdir/$abovebasedir menuconfig
-	status=$?
-	output "make menuconfig completed with status "$status $status
-	std_cmd_err_handler $status
-
+	# LSMOD
 	output "Prepare lsmod input..." 0
 	lsmod | grep -ve 'vbox' -e '8250_fintek' > $objectdir/mylsmod.txt
 	status=$?
 	output "lsmod output capture completed with status "$status $status
 	std_cmd_err_handler $status
-
 	output "Performing make localmodconfig..." 0
 	make O=$objectdir/$abovebasedir LSMOD=$objectdir/mylsmod.txt \
 		localmodconfig
-	status=$?
 	output "make localmodconfig completed with status "$status $status
 	std_cmd_err_handler $status
-
 	output "Remove lsmod input file..." 0
 	rm -v $objectdir/mylsmod.txt
 	status=$?
@@ -366,8 +364,31 @@ then
 	std_cmd_err_handler $status
 fi
 
+
 if [ $new = TRUE -o $update = TRUE ]
 then
+	# silentoldconfig
+	output "Performing make silentoldconfig..." 0
+	make O=$objectdir/$abovebasedir silentoldconfig
+	status=$?
+	output "make silentoldconfig completed with status "$status $status
+	std_cmd_err_handler $status
+
+	# menuconfig
+	output "Performing make menuconfig..." 0
+	make O=$objectdir/$abovebasedir menuconfig
+	status=$?
+	output "make menuconfig completed with status "$status $status
+	std_cmd_err_handler $status
+
+	# prepare
+	output "Performing make prepare..." 0
+	make O=$objectdir/$abovebasedir prepare
+	status=$?
+	output "make prepare completed with status "$status $status
+	std_cmd_err_handler $status
+
+	# Actual make
 	output "Performing make -j4..." 0
 	make O=$objectdir/$abovebasedir -j4
 	status=$?
@@ -375,8 +396,27 @@ then
 	std_cmd_err_handler $status
 fi
 
+
 if [ $install = TRUE ]
 then
+	########################
+	# Whilst the following code snippet "works", the target locations are
+	# questionable, as is the link from /lib/nmodules.
+	#
+	# output "Performing kernel header install..." 0
+	# sudo make headers_install INSTALL_HDR_PATH=/usr/src/linux-headers-4.10.0
+	# status=$?
+	# std_cmd_err_handler $status
+	# sudo mkdir -p /lib/modules/4.10.0
+	# status=$?
+	# std_cmd_err_handler $status
+	# sudo ln -s /usr/src/linux-headers-4.10.0 /lib/modules/4.10.0/build
+	# status=$?
+	# output "Kernel header install completed with status "$status $status
+	# std_cmd_err_handler $status
+	########################
+
+
 	output "Performing kernel install..." 0
 	sudo make O=$objectdir/$abovebasedir modules_install install
 	status=$?
