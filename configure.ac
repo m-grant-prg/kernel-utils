@@ -20,10 +20,12 @@
 # 07/07/2016	MG	1.0.1	First release.				#
 # 24/02/2017	MG	1.0.2	Update sed edit substitutions for more	#
 #				complete list.				#
+# 30/04/2017	MG	1.0.3	Make AC_INIT and pkgversion AC_SUBST	#
+#				multi-line.				#
 #									#
 #########################################################################
 
-AC_REVISION([$Revision: 1.0.2 $])
+AC_REVISION([$Revision: 1.0.3 $])
 
 AC_PREREQ([2.65])
 
@@ -39,13 +41,16 @@ AC_PREREQ([2.65])
 #
 ########################
 
-# AC_INIT cannot be split over multiple lines.
-AC_INIT([Kernel Utilities], m4_esyscmd([git describe --always 1>/dev/null 2>/dev/null && git describe --always | tr -d '\n' || echo 'Pre-Release' | tr -d '\n']), [m.grant.prg@gmail.com], [kernel-utils])
+AC_INIT([Kernel Utilities], m4_esyscmd([ \
+	git describe --always 1>/dev/null 2>/dev/null \
+	&& git describe --always | tr -d '\n' \
+	|| echo 'Pre-Release' | tr -d '\n']),
+	[m.grant.prg@gmail.com], [kernel-utils])
 
-AC_SUBST([pkgversion], [m4_esyscmd([git describe --always 1>/dev/null \
-				2>/dev/null \
-				&& git describe --always | tr -d '\n' \
-				|| echo 'Pre-Release' | tr -d '\n'])])
+AC_SUBST([pkgversion], [m4_esyscmd([ \
+	git describe --always 1>/dev/null 2>/dev/null \
+	&& git describe --always | tr -d '\n' \
+	|| echo 'Pre-Release' | tr -d '\n'])])
 
 
 ########################
