@@ -1,24 +1,24 @@
 #! /usr/bin/env bash
-##########################################################################
-##									##
-## Script ID: ./source/man/man1/Makefile.am				##
-## Author: Mark Grant							##
-##									##
-## Purpose:								##
-##	AutoMake script file to generate kernel-utils manual pages	##
-## from source.								##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Script ID: ./source/man/man1/Makefile.am				#
+# Author: Mark Grant							#
+#									#
+# Purpose:								#
+#	AutoMake script file to generate kernel-utils manual pages	#
+# from source.								#
+#									#
+#########################################################################
 
-##########################################################################
-##									##
-## Changelog								##
-##									##
-## Date		Author	Version	Description				##
-##									##
-## 07/07/2016	MG	1.0.1	First release.				##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Changelog								#
+#									#
+# Date		Author	Version	Description				#
+#									#
+# 07/07/2016	MG	1.0.1	First release.				#
+#									#
+#########################################################################
 
 
 kern-bld.sh.1: Makefile

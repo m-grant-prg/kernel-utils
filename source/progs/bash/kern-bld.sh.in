@@ -1,78 +1,78 @@
 #! /usr/bin/env bash
-##########################################################################
-##									##
-##	kern-bld.sh is automatically generated,				##
-##		please do not modify!					##
-##									##
-##########################################################################
+#########################################################################
+#									#
+#	kern-bld.sh is automatically generated,				#
+#		please do not modify!					#
+#									#
+#########################################################################
 
-##########################################################################
-##									##
-## Script ID: kern-bld.sh						##
-## Author: Mark Grant							##
-##									##
-## Purpose:								##
-## Builds the specified kernel in the specified manner.			##
-##                                                              	##
-## Syntax:      kern-bld.sh [OPTIONS]					##
-##			[OPTIONS] are:-					##
-##	-c or --config-file 'config-filename' Full path to the kernel	##
-##		config file to be copied in. Only valid with -n option.	##
-##	-h or --help Displays usage information.			##
-##	-i or --install Install the built kernel.			##
-##	-n or --new Build new kernel from scratch.			##
-##	-o or --object-dir 'object-directory' Parallel build base 	##
-##		directory for object files.				##
-##	-p or --persist Saves command line options for future use.	##
-##	-s or --source-dir 'source-directory' Base directory for source.##
-##	-u or --update Update the built kernel.				##
-##	-V or --version Displays version information.			##
-##									##
-## Exit Codes:	0 & 64 - 113 as per C/C++ standard			##
-##		0 - success						##
-##		64 - Invalid arguments					##
-##		66 - File access error					##
-##		67 - trap received					##
-##		77 - Permissions error					##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Script ID: kern-bld.sh						#
+# Author: Mark Grant							#
+#									#
+# Purpose:								#
+# Builds the specified kernel in the specified manner.			#
+#                                                     	         	#
+# Syntax:      kern-bld.sh [OPTIONS]					#
+#			[OPTIONS] are:-					#
+#	-c or --config-file 'config-filename' Full path to the kernel	#
+#		config file to be copied in. Only valid with -n option.	#
+#	-h or --help Displays usage information.			#
+#	-i or --install Install the built kernel.			#
+#	-n or --new Build new kernel from scratch.			#
+#	-o or --object-dir 'object-directory' Parallel build base 	#
+#		directory for object files.				#
+#	-p or --persist Saves command line options for future use.	#
+#	-s or --source-dir 'source-directory' Base directory for source.#
+#	-u or --update Update the built kernel.				#
+#	-V or --version Displays version information.			#
+#									#
+# Exit Codes:	0 & 64 - 113 as per C/C++ standard			#
+#		0 - success						#
+#		64 - Invalid arguments					#
+#		66 - File access error					#
+#		67 - trap received					#
+#		77 - Permissions error					#
+#									#
+#########################################################################
 
-##########################################################################
-##									##
-## Changelog								##
-##									##
-## Date		Author	Version	Description				##
-##									##
-## 06/07/2016	MG	1.0.1	Created.				##
-## 08/07/2016	MG	1.0.2	Change command line parameters from	##
-##				objectdir & sourcedir to object-dir &	##
-##				source-dir.				##
-##				Remove hard-coded source and build	##
-##				directories from path. Now just uses	##
-##				object-dir & source-dir as entered.	##
-##				Due to above change the lsmod input file##
-##				is now created in the actual source	##
-##				directory, so remove after use.		##
-##				Add command line argument option for	##
-##				specifying the kernel config file to	##
-##				copy in.				##
-##				Ensure cd back to original directory.	##
-## 09/07/2016	MG	1.0.3	Create and remove temporary lsmod file	##
-##				in the build directory instead of the	##
-##				source directory.			##
-## 12/07/2016	MG	1.0.4	Kernel install needs root privileges so	##
-##				using sudo eliminates requirement to do	##
-##				so from shell prompt.			##
-## 23/02/2017	MG	1.0.5	Add make silentoldconfig and make	##
-##				prepare to both new and update to check	##
-##				for new config options.			##
-##									##
-##########################################################################
+#########################################################################
+#									#
+# Changelog								#
+#									#
+# Date		Author	Version	Description				#
+#									#
+# 06/07/2016	MG	1.0.1	Created.				#
+# 08/07/2016	MG	1.0.2	Change command line parameters from	#
+#				objectdir & sourcedir to object-dir &	#
+#				source-dir.				#
+#				Remove hard-coded source and build	#
+#				directories from path. Now just uses	#
+#				object-dir & source-dir as entered.	#
+#				Due to above change the lsmod input file#
+#				is now created in the actual source	#
+#				directory, so remove after use.		#
+#				Add command line argument option for	#
+#				specifying the kernel config file to	#
+#				copy in.				#
+#				Ensure cd back to original directory.	#
+# 09/07/2016	MG	1.0.3	Create and remove temporary lsmod file	#
+#				in the build directory instead of the	#
+#				source directory.			#
+# 12/07/2016	MG	1.0.4	Kernel install needs root privileges so	#
+#				using sudo eliminates requirement to do	#
+#				so from shell prompt.			#
+# 23/02/2017	MG	1.0.5	Add make silentoldconfig and make	#
+#				prepare to both new and update to check	#
+#				for new config options.			#
+#									#
+#########################################################################
 
 
-####################
-## Init variables ##
-####################
+##################
+# Init variables #
+##################
 script_exit_code=0
 version="1.0.5"				# set version variable
 outputprefix="kern-bld.sh: "
@@ -90,9 +90,9 @@ update=FALSE
 currentdir=$(pwd)
 
 
-###############
-## Functions ##
-###############
+#############
+# Functions #
+#############
 
 # Output $1 to stdout or stderr depending on $2
 output()
@@ -142,9 +142,9 @@ write_file()
 }
 
 
-##########
-## Main ##
-##########
+########
+# Main #
+########
 # If config file exists, read it, else, create it.
 if [ ! -f ~/$conffile ]
 then
