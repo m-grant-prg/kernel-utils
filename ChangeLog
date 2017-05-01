@@ -1,3 +1,8 @@
+2017-05-01 v 1.0.5 Mark Grant <m.grant.prg@gmail.com>
+	*  Add make silentoldconfig and make prepare to both new and update
+	options.
+	Apply standards from atbre Template v1.0.0
+
 2016-07-12 v 1.0.4 Mark Grant <m.grant.prg@gmail.com>
 	*  Change make install to use sudo. Allows new / update options to
 	combine with install option.
