@@ -66,6 +66,10 @@
 # 23/02/2017	MG	1.0.5	Add make silentoldconfig and make	#
 #				prepare to both new and update to check	#
 #				for new config options.			#
+# 29/06/2017	MG	1.0.6	Remove exclusions from lsmod output as	#
+#				it causes a VirtualBox guest screen	#
+#				size issue. Probably a change due to	#
+#				Ubuntu 17.04.				#
 #									#
 #########################################################################
 
@@ -74,7 +78,7 @@
 # Init variables #
 ##################
 script_exit_code=0
-version="1.0.5"				# set version variable
+version="1.0.6"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
@@ -348,7 +352,7 @@ then
 
 	# LSMOD
 	output "Prepare lsmod input..." 0
-	lsmod | grep -ve 'vbox' -e '8250_fintek' > $objectdir/mylsmod.txt
+	lsmod > $objectdir/mylsmod.txt
 	status=$?
 	output "lsmod output capture completed with status "$status $status
 	std_cmd_err_handler $status
