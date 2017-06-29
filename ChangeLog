@@ -1,3 +1,8 @@
+2017-06-29 v 1.0.6 Mark Grant <m.grant.prg@gmail.com>
+	*  Remove exclusions from lsmod output as it causes a VirtualBox guest
+	screen size issue. Probably a change due to Ubuntu 17.04.
+	kern-bld.sh script now at version 1.0.6
+
 2017-05-01 v 1.0.5 Mark Grant <m.grant.prg@gmail.com>
 	*  Add make silentoldconfig and make prepare to both new and update
 	options.

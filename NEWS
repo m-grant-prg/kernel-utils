@@ -1,3 +1,7 @@
+Release 1.0.6 2017-06-29
+Remove exclusions from lsmod output as it causes a VirtualBox guest screen size
+issue. Probably a change due to Ubuntu 17.04.
+
 Release 1.0.5 2017-05-01
 Add make silentoldconfig and make prepare to both new and update options.
 Apply standards from atbre Template v1.0.0
