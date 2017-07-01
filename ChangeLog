@@ -1,3 +1,7 @@
+2017-07-01 v 1.0.7 Mark Grant <m.grant.prg@gmail.com>
+	*  Enforce 80 column rule.
+	kern-bld.sh script now at version 1.0.7
+
 2017-06-29 v 1.0.6 Mark Grant <m.grant.prg@gmail.com>
 	*  Remove exclusions from lsmod output as it causes a VirtualBox guest
 	screen size issue. Probably a change due to Ubuntu 17.04.

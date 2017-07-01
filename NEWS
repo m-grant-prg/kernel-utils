@@ -1,3 +1,6 @@
+Release 1.0.7 2017-07-01
+Enforce 80 column rule.
+
 Release 1.0.6 2017-06-29
 Remove exclusions from lsmod output as it causes a VirtualBox guest screen size
 issue. Probably a change due to Ubuntu 17.04.
