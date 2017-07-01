@@ -70,6 +70,7 @@
 #				it causes a VirtualBox guest screen	#
 #				size issue. Probably a change due to	#
 #				Ubuntu 17.04.				#
+# 01/07/2017	MG	1.0.7	Enforce 80 column rule.			#
 #									#
 #########################################################################
 
@@ -78,7 +79,7 @@
 # Init variables #
 ##################
 script_exit_code=0
-version="1.0.6"				# set version variable
+version="1.0.7"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
@@ -174,14 +175,13 @@ else
 fi
 
 # Process command line arguments with GNU getopt.
-GETOPTTEMP=`getopt -o c:hino:ps:uV \
-	--long config-file:,help,install,new,object-dir:,persist,source-dir:,update,version \
-	-n "$0" -- "$@"`
-std_cmd_err_handler $?
-
+tmp="getopt -o c:hino:ps:uV "
+tmp+="--long config-file:,help,install,new,object-dir:,persist,source-dir:,"
+tmp+="update,version "
+tmp+="-n $0 -- $@"
+GETOPTTEMP=`eval $tmp`
 eval set -- "$GETOPTTEMP"
 std_cmd_err_handler $?
-
 
 while true
 do
@@ -408,7 +408,8 @@ then
 	# questionable, as is the link from /lib/nmodules.
 	#
 	# output "Performing kernel header install..." 0
-	# sudo make headers_install INSTALL_HDR_PATH=/usr/src/linux-headers-4.10.0
+	# sudo make headers_install \
+	#		INSTALL_HDR_PATH=/usr/src/linux-headers-4.10.0
 	# status=$?
 	# std_cmd_err_handler $status
 	# sudo mkdir -p /lib/modules/4.10.0
