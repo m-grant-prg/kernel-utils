@@ -25,9 +25,9 @@ e) make localmodconfig is run using the above lsmod output
 
 f) the temporary lsmod input file is removed
 
-g) make -j4 is run
+g) make -jX is run where X is the concurrency parameter or -j --jobs value
 
-When updating a kernel only make -j4 is run.
+When updating a kernel only make -jX is run.
 
 OPTIONS
 -c, --config-file full path to the kernel config file to be copied in. Only
@@ -37,12 +37,14 @@ valid with -n option, not -u
 
 -i, --install install the kernel and kernel modules
 
+-j, --jobs the number of parallel processes to use in the build
+
 -n, --new build a new kernel from scratch using a new copy of the .config file
 
 -o, --output-dir specify a build output directory
 
--p, --persist save the --output-dir, --source-dir and --config-file values for
-future defaults
+-p, --persist save the --output-dir, --source-dir, --jobs and --config-file
+values for future defaults
 
 -s, --source-dir specify a source directory
 
@@ -73,7 +75,7 @@ Written by Mark Grant.
 REPORTING BUGS
 Report bugs to <m.grant.prg@gmail.com>
 COPYRIGHT
-Copyright 2016 Mark Grant.
+Copyright 2017 Mark Grant.
 .br
 License GPLv3+: GNU GPL version 3 or later
 .br

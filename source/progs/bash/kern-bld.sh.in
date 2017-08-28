@@ -71,6 +71,9 @@
 #				size issue. Probably a change due to	#
 #				Ubuntu 17.04.				#
 # 01/07/2017	MG	1.0.7	Enforce 80 column rule.			#
+# 28/08/2017	MG	1.0.8	Add config file param concurrency and	#
+#				command line arguments -j --jobs to be	#
+#				fed to the build as number of jobs.	#
 #									#
 #########################################################################
 
@@ -79,13 +82,14 @@
 # Init variables #
 ##################
 script_exit_code=0
-version="1.0.7"				# set version variable
+version="1.0.8"				# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
+concurrency=""
 conffile=".kern-bld.conf"		# Conf file for this script
-kernconfigfile=""			# Full path to Kernel config file
 install=FALSE
+kernconfigfile=""			# Full path to Kernel config file
 new=FALSE
 objectdir=""
 persist=FALSE
@@ -144,6 +148,7 @@ write_file()
 	echo "sourcedir=$sourcedir">>~/.kern-bld.conf
 	echo "objectdir=$objectdir">>~/.kern-bld.conf
 	echo "kernconfigfile=$kernconfigfile">>~/.kern-bld.conf
+	echo "concurrency=$concurrency">>~/.kern-bld.conf
 }
 
 
@@ -169,14 +174,17 @@ else
 		kernconfigfile)
 			kernconfigfile=${input[1]}
 			;;
+		concurrency)
+			concurrency=${input[1]}
+			;;
 		esac
 	done
 	exec 3<&-
 fi
 
 # Process command line arguments with GNU getopt.
-tmp="getopt -o c:hino:ps:uV "
-tmp+="--long config-file:,help,install,new,object-dir:,persist,source-dir:,"
+tmp="getopt -o c:hij:no:ps:uV "
+tmp+="--long config-file:,help,install,jobs:,new,object-dir:,persist,source-dir:,"
 tmp+="update,version "
 tmp+="-n $0 -- $@"
 GETOPTTEMP=`eval $tmp`
@@ -200,6 +208,8 @@ do
 		echo "		 Can be persisted with -p."
 		echo "	'-h or --help' Displays usage information."
 		echo "	'-i or --install' Install the built kernel."
+		echo "  '-j or --jobs' Number of concurrent processes to use."
+		echo "		 Can be persisted with -p."
 		echo "	'-n or --new' Build new kernel from scratch."
 		echo "	'-o or --object-dir object-directory' Parallel build " \
 					"base directory for"
@@ -220,6 +230,10 @@ do
 		install=TRUE
 		shift
 		;;
+	-j|--jobs)
+		concurrency=$2
+		shift
+		;;
 	-n|--new)
 		new=TRUE
 		shift
@@ -232,7 +246,7 @@ do
 		persist=TRUE
 		shift
 		;;
-	-s|--source-dir)
+	-s|--source-dir)output "Internal error." 1
 		sourcedir=$2
 		shift 2
 		;;
@@ -393,10 +407,10 @@ then
 	std_cmd_err_handler $status
 
 	# Actual make
-	output "Performing make -j4..." 0
-	make O=$objectdir/$abovebasedir -j4
+	output "Performing make -j$concurrency..." 0
+	make O=$objectdir/$abovebasedir -j$concurrency
 	status=$?
-	output "make -j4 completed with status "$status $status
+	output "make -j$concurrency completed with status "$status $status
 	std_cmd_err_handler $status
 fi
 
