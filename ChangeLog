@@ -1,3 +1,10 @@
+2017-08-28 v 1.0.8 Mark Grant <m.grant.prg@gmail.com>
+	*  Add -j --jobs command line argument and corresponding concurrency
+	parameter in the config file. This allows specification of the number
+	of parallel processes to use in the build. This value can be persisted
+	with the -p option.
+	kern-bld.sh script now at version 1.0.8
+
 2017-07-01 v 1.0.7 Mark Grant <m.grant.prg@gmail.com>
 	*  Enforce 80 column rule.
 	kern-bld.sh script now at version 1.0.7

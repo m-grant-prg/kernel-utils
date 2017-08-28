@@ -1,3 +1,8 @@
+Release 1.0.8 2017-08-28
+Add -j --jobs command line argument and corresponding concurrency parameter in
+the config file. This allows specification of the number of parallel processes
+to use in the build. This value can be persisted with the -p option.
+
 Release 1.0.7 2017-07-01
 Enforce 80 column rule.
 
