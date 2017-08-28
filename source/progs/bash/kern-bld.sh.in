@@ -208,7 +208,7 @@ do
 		echo "		 Can be persisted with -p."
 		echo "	'-h or --help' Displays usage information."
 		echo "	'-i or --install' Install the built kernel."
-		echo "  '-j or --jobs' Number of concurrent processes to use."
+		echo "	'-j or --jobs' Number of concurrent processes to use."
 		echo "		 Can be persisted with -p."
 		echo "	'-n or --new' Build new kernel from scratch."
 		echo "	'-o or --object-dir object-directory' Parallel build " \
