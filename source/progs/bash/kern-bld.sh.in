@@ -31,12 +31,8 @@
 #	-u or --update Update the built kernel.				#
 #	-V or --version Displays version information.			#
 #									#
-# Exit Codes:	0 & 64 - 113 as per C/C++ standard			#
-#		0 - success						#
-#		64 - Invalid arguments					#
-#		66 - File access error					#
-#		67 - trap received					#
-#		77 - Permissions error					#
+# Exit Codes:	0 - success						#
+#		1 - failure						#
 #									#
 #########################################################################
 
@@ -78,6 +74,8 @@
 #				command line arguments -j --jobs to be	#
 #				fed to the build as number of jobs.	#
 # 08/12/2017	MG	1.0.9	Add SPDX license tags to source files.	#
+# 08/12/2017	NG	1.0.10	Adopt standard exit codes; 0 on success	#
+#				1 on failure.				#
 #									#
 #########################################################################
 
@@ -86,7 +84,7 @@
 # Init variables #
 ##################
 script_exit_code=0
-version="1.0.9"				# set version variable
+version="1.0.10"			# set version variable
 outputprefix="kern-bld.sh: "
 packageversion=@pkgversion@		# Version of the complete package
 
@@ -138,7 +136,7 @@ script_exit()
 # Standard trap exit function
 trap_exit()
 {
-script_exit_code=67
+script_exit_code=1
 output "Script terminating due to trap received. Code: "$script_exit_code 1
 script_exit
 }
@@ -278,7 +276,7 @@ done
 # Script must have one more argument, the directory above base level.
 if [ $# = 0 ]
 then
-	script_exit_code=64
+	script_exit_code=1
 	output "Directory above base must be specified." 1
 	script_exit
 fi
@@ -290,7 +288,7 @@ shift
 # Script does not accept other arguments.
 if [ $# -gt 0 ]
 then
-	script_exit_code=64
+	script_exit_code=1
 	output "Script does not accept further arguments: $1" 1
 	script_exit
 fi
@@ -305,7 +303,7 @@ fi
 # n and u flags cannot both be set.
 if [ $new = TRUE -a $update = TRUE ]
 then
-	script_exit_code=64
+	script_exit_code=1
 	output "-n and -u cannot both be set." 1
 	script_exit
 fi
@@ -313,14 +311,14 @@ fi
 # Check source directory exists and is readable.
 if [ ! -d "$sourcedir/$abovebasedir" ]
 then
-	script_exit_code=66
+	script_exit_code=1
 	output "Source directory not valid - $sourcedir/$abovebasedir" 1
 	script_exit
 fi
 
 if [ ! -r "$sourcedir/$abovebasedir" ]
 then
-	script_exit_code=77
+	script_exit_code=1
 	output "Source directory not accessible - $sourcedir/$abovebasedir" 1
 	script_exit
 fi
@@ -328,14 +326,14 @@ fi
 # Check kernel config file exists and is readable.
 if [ ! -f "$kernconfigfile" ]
 then
-	script_exit_code=66
+	script_exit_code=1
 	output "Kernel config file not valid." 1
 	script_exit
 fi
 
 if [ ! -r "$kernconfigfile" ]
 then
-	script_exit_code=77
+	script_exit_code=1
 	output "Kernel config file not accessible." 1
 	script_exit
 fi

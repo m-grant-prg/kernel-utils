@@ -52,17 +52,9 @@ values for future defaults
 
 -V, --version prints version information
 EXIT STATUS
-0 & 64 - 113 as per C/C++ standard
-
 0 - success
 
-64 - Invalid arguments
-
-66 - File access error
-
-67 - trap received
-
-77 - Permissions error
+1 - failure
 
 EXAMPLE
 kern-bld.sh -ups /home/mg/kernel/source -o /home/mg/kernel/build stable
