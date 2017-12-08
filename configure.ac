@@ -1,7 +1,10 @@
 #########################################################################
 #									#
 # Script ID: ./configure.ac						#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2016-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 #	AutoConf script file to configure kernel-utils project.		#
@@ -22,10 +25,11 @@
 #				complete list.				#
 # 30/04/2017	MG	1.0.3	Make AC_INIT and pkgversion AC_SUBST	#
 #				multi-line.				#
+# 08/12/2017	MG	1.0.4	Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 
-AC_REVISION([$Revision: 1.0.3 $])
+AC_REVISION([$Revision: 1.0.4 $])
 
 AC_PREREQ([2.65])
 

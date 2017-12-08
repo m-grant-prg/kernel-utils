@@ -2,7 +2,10 @@
 #########################################################################
 #									#
 # Script ID: ./source/man/man1/Makefile.am				#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2016-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 #	AutoMake script file to generate kernel-utils manual pages	#
@@ -19,6 +22,7 @@
 # 07/07/2016	MG	1.0.1	First release.				#
 # 30/04/2017	MG	1.0.2	Output from $(edit) was being ignored.	#
 #				Rename source file extension .man.in	#
+# 08/12/2017	MG	1.0.3	Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 

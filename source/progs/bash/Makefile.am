@@ -2,7 +2,10 @@
 #########################################################################
 #									#
 # Script ID: ./source/progs/bash/Makefile.am				#
-# Author: Mark Grant							#
+# Author: Copyright (C) 2016-2017  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
 #	AutoMake script file to generate kernel-utils scripts from	#
@@ -17,6 +20,7 @@
 # Date		Author	Version	Description				#
 #									#
 # 07/07/2016	MG	1.0.1	First release.				#
+# 08/12/2017	MG	1.0.2	Add SPDX license tags to source files.	#
 #									#
 #########################################################################
 
