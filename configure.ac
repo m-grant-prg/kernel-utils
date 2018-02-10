@@ -29,6 +29,8 @@
 # 10/02/2018	MG	1.0.5	Shorten directory names to reduce	#
 #				overall path length.			#
 #				Update minimum AutoTools version.	#
+#				Standardise configure.ac and macro	#
+#				directory.				#
 #									#
 #########################################################################
 
@@ -129,15 +131,42 @@ AC_SUBST([edit], ["sed \
 		-e 's|@pkglibexecdir[@]|\$(pkglibexecdir)|g'"])
 
 
-# Passes the options to all am files. Puts objects in the subdirectory
-# containing the source.
-AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects])
+# Passes the options to all am files. Puts objects in the sub-directory
+# containing the source. Forces tar to use --format=posix in make dist.
+# This also checks :-	BSD install	make variable set	mkdir -p
+#			gawk
+AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects tar-pax])
+
+
+########################
+#
+# Standard macros will be automatically placed in m4.
+# Programmer defined macros should be placed in, say, m4extra which allows us
+# to exclude the standard macros from being git tracked. This other directory
+# must be specified as an include option in the Makefile.am ACLOCAL_AMFLAGS
+# e.g.
+# ACLOCAL_AMFLAGS = -I m4 -I m4extra
+#
+########################
+
+AC_CONFIG_MACRO_DIR([m4])
+
 
 ########################
 #
 # Checks for programs.
-# install, mkdir and gawk are checked by AM_INIT_AUTOMAKE.
-# grep, egrep and ranlib are also automatically checked.
+# If using am init automake, gl early or lt init the following programs are
+# automatically checked:-
+#
+# am init automake
+#	BSD install	mkdir -p	gawk
+#
+# gl early
+#	ar	grep	egrep	ranlib
+#
+# lt init
+#	fgrep	ranlib	sed
+#
 # Particular and generic program checks follow:
 #
 ########################
