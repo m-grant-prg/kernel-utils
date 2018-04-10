@@ -1,20 +1,43 @@
-The INSTALL file in this directory contains more detailed generic instructions
-to install this package but here is a simple sequence to follow:
+--------
+Contents
+========
 
-1 ... Extract the tarball (.tar.gz file) preserving the directory structure.
+1 ... Project Description
 
-2 ... cd to the directory created.
+2 ... AutoTools (configure and make) Installation
 
-3 ... Type './configure'
+3 ... Ubuntu Installation
 
-4 ... As root or sudo, type 'make install clean'
+4 ... Debian and Raspbian Installation
 
-5 ... As root or sudo, type './setup.sh'
 
-6 ... Answer the questions posed by ./setusp.sh
+
+-------------------------
+1 ... Project Description
+=========================
+
+This AutoTools project contains helper scripts for kernel hacking and building.
+
+
+-------------------------------------------------
+2 ... AutoTools (configure and make) Installation
+=================================================
+
+1 ... Download either the source or distribution tarball (the .tar.gz file)
+	from:-
+	https://github.com/m-grant-prg/kernel-utils/releases
+
+2 ... Extract the tarball preserving the directory structure.
+
+3 ... cd to the directory created.
+
+4 ... If you downloaded the source tarball type 'autoreconf -if'
+
+5 ... Type './configure'
+
+6 ... As root or sudo, type 'make install clean'
 
 (Quote marks are for textual clarity only).
-
 
 
 To uninstall the package:
@@ -22,3 +45,35 @@ To uninstall the package:
 1 ... cd to the directory created in the above install process.
 
 2 ... As root or sudo, type 'make uninstall clean'
+
+
+-------------------------
+3 ... Ubuntu Installation
+=========================
+This script is available as an Ubuntu package hosted in a Personal Package
+Archive (PPA). If you add this PPA to your software sources then you can easily
+install, update and remove the package.
+
+To view the details of this PPA please follow the link below:-
+	https://code.launchpad.net/~m-grant-prg/+archive/ubuntu/utils
+
+To add this PPA to your system please type the following:-
+	sudo add-apt-repository ppa:m-grant-prg/utils
+	sudo apt-get update
+
+To install this script on your system for use please type the following:-
+	sudo apt-get update
+	sudo apt-get install kernel-utils
+
+To uninstall this package at any time please type:-
+	sudo apt-get remove kernel-utils
+
+
+--------------------------------------
+4 ... Debian and Raspbian Installation
+======================================
+Debian and Raspbian '.deb' packages can be downloaded from:-
+	https://github.com/m-grant-prg/kernel-utils/releases
+
+They can then be installed using a utility such as GDebi which is available in
+the standard repos.
