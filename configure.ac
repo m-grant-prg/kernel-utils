@@ -31,35 +31,36 @@
 #				Update minimum AutoTools version.	#
 #				Standardise configure.ac and macro	#
 #				directory.				#
+# 10/04/2018	MG	1.0.6	Change package versioning to use	#
+#				hard-coded value. This is due to the	#
+#				use of github which produces source	#
+#				tarballs which can be used for package	#
+#				generation. These tarballs are used	#
+#				outside of git so git versioning is not	#
+#				possible, hence the hard-coded value.	#
+#				Because of this, other packaging should	#
+#				probably use the source tarball rather	#
+#				than a dist tarball.			#
 #									#
 #########################################################################
 
-AC_REVISION([$Revision: 1.0.5 $])
+AC_REVISION([$Revision: 1.0.6 $])
 
 AC_PREREQ([2.69])
 
 
 ########################
 #
-# The following two macros use git to provide versioning information.
-# If git is not initialised or no commit has been made, then 'Pre-Release'
-# will be used.
-# If no Tag has been created then just a commit identifier will be used.
-# If a tag has been created then the most recent tag, plus number of commits
-# since the tag, plus a commit identifier will be used.
+# The package version in ac init will be used to create an output variable which
+# can be used by ac output and / or the sed setup below to substitute bookmarks
+# in source files.
 #
 ########################
 
-AC_INIT([Kernel Utilities], m4_esyscmd([ \
-	git describe --always 1>/dev/null 2>/dev/null \
-	&& git describe --always | tr -d '\n' \
-	|| echo 'Pre-Release' | tr -d '\n']),
-	[m.grant.prg@gmail.com], [kernel-utils])
+AC_INIT(Kernel Utilities, v1.0.10+rc1,
+	m.grant.prg@gmail.com, kernel-utils)
 
-AC_SUBST([pkgversion], [m4_esyscmd([ \
-	git describe --always 1>/dev/null 2>/dev/null \
-	&& git describe --always | tr -d '\n' \
-	|| echo 'Pre-Release' | tr -d '\n'])])
+AC_SUBST(pkgversion, $PACKAGE_VERSION)
 
 
 ########################
