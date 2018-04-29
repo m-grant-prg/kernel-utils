@@ -3,7 +3,10 @@ kern-bld.sh - build a kernel
 SYNOPSIS
 kern-bld.sh [OPTIONS] kerneldirectory
 DESCRIPTION
-This script will build a new, from scratch, kernel or update an existing kernel.
+This script will build a kernel with a new config file copied from an existing
+file, (usually a distro config file), or build a kernel with the in-place config
+file.
+.br
 Run with the appropriate privileges it can also install the kernel. The two
 directory parameters, which can be persisted, should point to the location of
 the source and the location of the parallel build target. The kerneldirectory
@@ -11,23 +14,29 @@ specified on the command line is then appended to these paths. The config file
 option, which can be persisted, should point to an existing kernel config file
 which will be copied to the output directory.
 
-When building a new kernel the following tasks are performed:-
+When building a kernel with the -n --new option, the following tasks are
+performed:-
 
-a) make distclean is run.
+a) make distclean is run
 
 b) a specified kernel config file is copied in as .config
 
-c) make menuconfig is run so changes to the config can be made
+c) lsmod is run, the output is then used in
 
-d) lsmod is run ignoring Virtualbox modules, the output is then used in
+d) make localmodconfig is run using the above lsmod output
 
-e) make localmodconfig is run using the above lsmod output
+e) the temporary lsmod input file is removed
 
-f) the temporary lsmod input file is removed
+then for both -n --new and -u --update options the following steps are
+performed:-
 
-g) make -jX is run where X is the concurrency parameter or -j --jobs value
+1) make olddefconfig is run
 
-When updating a kernel only make -jX is run.
+2) make menuconfig is run so changes to the config can be made
+
+3) make prepare is run
+
+4) make -jX is run where X is the concurrency parameter or -j --jobs value
 
 OPTIONS
 -c, --config-file full path to the kernel config file to be copied in. Only
@@ -39,7 +48,7 @@ valid with -n option, not -u
 
 -j, --jobs the number of parallel processes to use in the build
 
--n, --new build a new kernel from scratch using a new copy of the .config file
+-n, --new build a kernel using a new copy of the .config file
 
 -o, --output-dir specify a build output directory
 
@@ -48,7 +57,7 @@ values for future defaults
 
 -s, --source-dir specify a source directory
 
--u, --update update a previously built kernel
+-u, --update build a kernel using the in-place config file
 
 -V, --version prints version information
 EXIT STATUS
@@ -67,7 +76,7 @@ Written by Mark Grant.
 REPORTING BUGS
 Report bugs to <m.grant.prg@gmail.com>
 COPYRIGHT
-Copyright 2016-2017 Mark Grant.
+Copyright 2016-2018 Mark Grant.
 .br
 License GPLv3+: GNU GPL version 3 or later
 .br
