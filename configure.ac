@@ -57,7 +57,7 @@ AC_PREREQ([2.69])
 #
 ########################
 
-AC_INIT(Kernel Utilities, v1.0.13, m.grant.prg@gmail.com, kernel-utils)
+AC_INIT(Kernel Utilities, v1.0.14, m.grant.prg@gmail.com, kernel-utils)
 
 AC_SUBST(pkgversion, $PACKAGE_VERSION)
 
