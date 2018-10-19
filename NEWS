@@ -1,3 +1,7 @@
+Release 1.0.14 2018-10-19
+Add markdown symlink for better presentation on GitHub.
+Update README to refer to the new wiki.
+
 Release 1.0.13 2018-08-27
 There have been enough minor project infrastructure changes to warrant a new
 release. No functionality changes.
