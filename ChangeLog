@@ -1,3 +1,7 @@
+2018-10-31 v 1.0.15 Mark Grant <m.grant.prg@gmail.com>
+	*  srctarball to use -src- in filename
+	kern-bld.sh script still at version 1.0.11
+
 2018-10-19 v 1.0.14 Mark Grant <m.grant.prg@gmail.com>
 	*  Add markdown symlink for better presentation on GitHub.
 	Update README to refer to the new wiki.
