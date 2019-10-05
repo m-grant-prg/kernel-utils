@@ -182,15 +182,21 @@ std_cmd_err_handler()
 	fi
 }
 
-# Standard trap exit function
+# Standard trap exit function.
+# No parameters.
+# No return value.
 trap_exit()
 {
-output "Script terminating due to trap received. Code: 1" 1
-script_exit 1
+	local -i exit_code=$?
+	local msg
+
+	msg="Script terminating with exit code $exit_code due to trap received."
+	output "$msg" 1
+	script_exit $exit_code
 }
 
-# Setup trap
-trap trap_exit SIGHUP SIGINT SIGTERM
+# Setup trap.
+trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 
 # Function to write config file.
 write_file()
