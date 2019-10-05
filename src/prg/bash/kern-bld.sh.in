@@ -16,7 +16,7 @@
 #									#
 # Purpose:								#
 # Builds the specified kernel in the specified manner.			#
-#                                                     	         	#
+#						     		 	#
 # Syntax:      kern-bld.sh [OPTIONS]					#
 #			[OPTIONS] are:-					#
 #	-c or --config-file 'config-filename' Full path to the kernel	#
@@ -83,6 +83,7 @@
 # 05/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
 #				Make loops and ifs C shape.		#
 #				Use true booleans.			#
+#				Refactor into functions.		#
 #									#
 #########################################################################
 
@@ -111,6 +112,42 @@ currentdir=$(pwd)
 #############
 # Functions #
 #############
+
+# -h --help output.
+# No parameters
+# No return value
+usage ()
+{
+cat << EOF
+Usage is $0 [OPTIONS]
+	[OPTIONS] are:-
+	-c or --config-file config-filename
+		Full path to the kernel config file to be copied in. Only valid
+		with -n --new option
+		Can be persisted with -p.
+	-h or --help
+		Displays usage information.
+	-i or --install
+		Install the built kernel.
+	-j or --jobs
+		Number of concurrent processes to use.
+		Can be persisted with -p.
+	-n or --new
+		Build a kernel using a new copy of a config file.
+	-o or --object-dir object-directory
+		Parallel build base directory for object files.
+		Can be persisted with -p.
+	-p or --persist
+		Saves command line options for future use.
+	-s or --source-dir source-directory
+		Base directory for source.
+		Can be persisted with -p.
+	-u or --update
+		Build a kernel using the in-place config file.
+	-V or --version
+		Displays version information.
+EOF
+}
 
 # Output $1 to stdout or stderr depending on $2
 output()
@@ -203,31 +240,7 @@ while true; do
 		shift 2
 		;;
 	-h|--help)
-		echo "Usage is $0 [OPTIONS]"
-		echo "	[OPTIONS] are:-"
-		echo "	'-c or --config-file config-filename' Full path to " \
-					"the kernel config "
-		echo "		 file to be copied in. Only valid with -n " \
-					"--new option."
-		echo "		 Can be persisted with -p."
-		echo "	'-h or --help' Displays usage information."
-		echo "	'-i or --install' Install the built kernel."
-		echo "	'-j or --jobs' Number of concurrent processes to use."
-		echo "		 Can be persisted with -p."
-		echo "	'-n or --new' Build a kernel using a new copy of a " \
-					"config file."
-		echo "	'-o or --object-dir object-directory' Parallel build " \
-					"base directory for"
-		echo "		 object files."
-		echo "		 Can be persisted with -p."
-		echo "	'-p or --persist' Saves command line options for " \
-					"future use."
-		echo "	'-s or --source-dir source-directory' Base directory " \
-					"for source."
-		echo "		 Can be persisted with -p."
-		echo "	'-u or --update' Build a kernel using the in-place " \
-					"config file."
-		echo "	'-V or --version' Displays version information."
+		usage
 		shift
 		script_exit_code=0
 		script_exit
