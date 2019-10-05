@@ -81,6 +81,7 @@
 #				takes the default value for any new	#
 #				symbols.				#
 # 05/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
+#				Make loops and ifs C shape.		#
 #									#
 #########################################################################
 
@@ -113,8 +114,7 @@ currentdir=$(pwd)
 # Output $1 to stdout or stderr depending on $2
 output()
 {
-	if [ $2 = 0 ]
-	then
+	if [ $2 = 0 ]; then
 		echo "$outputprefix$1"
 	else
 		echo "$outputprefix$1" 1>&2
@@ -124,8 +124,7 @@ output()
 # Standard function to test command error ($1 is $?) and exit if non-zero
 std_cmd_err_handler()
 {
-	if [ $1 != 0 ]
-	then
+	if [ $1 != 0 ]; then
 		script_exit_code=$1
 		script_exit
 	fi
@@ -163,14 +162,12 @@ write_file()
 # Main #
 ########
 # If config file exists, read it, else, create it.
-if [ ! -f ~/$conffile ]
-then
+if [ ! -f ~/$conffile ]; then
 	write_file
 else
 	IFS="="
 	exec 3<~/$conffile
-	while read -u3 -ra input
-	do
+	while read -u3 -ra input; do
 		case ${input[0]} in
 		sourcedir)
 			sourcedir=${input[1]}
@@ -198,8 +195,7 @@ GETOPTTEMP=`eval $tmp`
 eval set -- "$GETOPTTEMP"
 std_cmd_err_handler $?
 
-while true
-do
+while true; do
 	case "$1" in
 	-c|--config-file)
 		kernconfigfile=$2
@@ -281,8 +277,7 @@ do
 done
 
 # Script must have one more argument, the directory above base level.
-if [ $# = 0 ]
-then
+if [ $# = 0 ]; then
 	script_exit_code=1
 	output "Directory above base must be specified." 1
 	script_exit
@@ -293,61 +288,53 @@ abovebasedir=$1
 shift
 
 # Script does not accept other arguments.
-if [ $# -gt 0 ]
-then
+if [ $# -gt 0 ]; then
 	script_exit_code=1
 	output "Script does not accept further arguments: $1" 1
 	script_exit
 fi
 
 # If only persist flag set then nothing to do, exit.
-if [ $# = 1 -a "$1" = "-p" ]
-then
+if [ $# = 1 -a "$1" = "-p" ]; then
 	script_exit_code=0
 	script_exit
 fi
 
 # n and u flags cannot both be set.
-if [ $new = TRUE -a $update = TRUE ]
-then
+if [ $new = TRUE -a $update = TRUE ]; then
 	script_exit_code=1
 	output "-n and -u cannot both be set." 1
 	script_exit
 fi
 
 # Check source directory exists and is readable.
-if [ ! -d "$sourcedir/$abovebasedir" ]
-then
+if [ ! -d "$sourcedir/$abovebasedir" ]; then
 	script_exit_code=1
 	output "Source directory not valid - $sourcedir/$abovebasedir" 1
 	script_exit
 fi
 
-if [ ! -r "$sourcedir/$abovebasedir" ]
-then
+if [ ! -r "$sourcedir/$abovebasedir" ]; then
 	script_exit_code=1
 	output "Source directory not accessible - $sourcedir/$abovebasedir" 1
 	script_exit
 fi
 
 # Check kernel config file exists and is readable.
-if [ ! -f "$kernconfigfile" ]
-then
+if [ ! -f "$kernconfigfile" ]; then
 	script_exit_code=1
 	output "Kernel config file not valid." 1
 	script_exit
 fi
 
-if [ ! -r "$kernconfigfile" ]
-then
+if [ ! -r "$kernconfigfile" ]; then
 	script_exit_code=1
 	output "Kernel config file not accessible." 1
 	script_exit
 fi
 
 # If persist is TRUE, save parameters.
-if [ $persist = TRUE ]
-then
+if [ $persist = TRUE ]; then
 	rm -f ~/$conffile
 	write_file
 fi
@@ -357,8 +344,7 @@ fi
 cd $sourcedir/$abovebasedir
 std_cmd_err_handler $?
 
-if [ $new = TRUE ]
-then
+if [ $new = TRUE ]; then
 	# Clean
 	output "Performing make distclean..." 0
 	make O=$objectdir/$abovebasedir distclean
@@ -392,8 +378,7 @@ then
 fi
 
 
-if [ $new = TRUE -o $update = TRUE ]
-then
+if [ $new = TRUE -o $update = TRUE ]; then
 	# olddefconfig
 	output "Performing make olddefconfig..." 0
 	make O=$objectdir/$abovebasedir olddefconfig
@@ -424,8 +409,7 @@ then
 fi
 
 
-if [ $install = TRUE ]
-then
+if [ $install = TRUE ]; then
 	########################
 	# Whilst the following code snippet "works", the target locations are
 	# questionable, as is the link from /lib/nmodules.
@@ -456,3 +440,4 @@ fi
 # And exit
 output "Script complete with exit code: "$script_exit_code $script_exit_code
 script_exit
+
