@@ -199,6 +199,8 @@ trap_exit()
 trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 
 # Function to write config file.
+# No parameters.
+# No return value.
 write_file()
 {
 	echo "sourcedir=$sourcedir">>~/.kern-bld.conf
