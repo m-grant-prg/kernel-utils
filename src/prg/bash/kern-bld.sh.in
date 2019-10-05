@@ -88,6 +88,7 @@
 #				write_file().				#
 #				Make conffile hold full path.		#
 #				Make write_file() (over)write file.	#
+#				Only create conffile with --persist.	#
 #									#
 #########################################################################
 
@@ -221,10 +222,8 @@ write_file()
 ########
 # Main #
 ########
-# If config file exists, read it, else, create it.
-if [ ! -f $conffile ]; then
-	write_file
-else
+# If config file exists, read it.
+if [ -f $conffile ]; then
 	IFS="="
 	exec 3<$conffile
 	while read -u3 -ra input; do
