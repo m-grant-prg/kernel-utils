@@ -86,6 +86,7 @@
 #				Refactor into functions.		#
 #				Add error checking to config file	#
 #				write_file().				#
+#				Make conffile hold full path.		#
 #									#
 #########################################################################
 
@@ -99,7 +100,7 @@ outputprefix="$(basename $0): "
 packageversion=@pkgversion@		# Version of the complete package
 
 concurrency=""
-conffile=".kern-bld.conf"		# Conf file for this script
+conffile=~/.kern-bld.conf		# Conf file for this script
 install=false
 kernconfigfile=""			# Full path to Kernel config file
 new=false
@@ -205,13 +206,13 @@ trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 # No return value.
 write_file()
 {
-	echo "sourcedir=$sourcedir">>~/.kern-bld.conf
+	echo "sourcedir=$sourcedir">>"$conffile"
 	std_cmd_err_handler $?
-	echo "objectdir=$objectdir">>~/.kern-bld.conf
+	echo "objectdir=$objectdir">>$conffile
 	std_cmd_err_handler $?
-	echo "kernconfigfile=$kernconfigfile">>~/.kern-bld.conf
+	echo "kernconfigfile=$kernconfigfile">>$conffile
 	std_cmd_err_handler $?
-	echo "concurrency=$concurrency">>~/.kern-bld.conf
+	echo "concurrency=$concurrency">>$conffile
 	std_cmd_err_handler $?
 }
 
@@ -220,11 +221,11 @@ write_file()
 # Main #
 ########
 # If config file exists, read it, else, create it.
-if [ ! -f ~/$conffile ]; then
+if [ ! -f $conffile ]; then
 	write_file
 else
 	IFS="="
-	exec 3<~/$conffile
+	exec 3<$conffile
 	while read -u3 -ra input; do
 		case ${input[0]} in
 		sourcedir)
@@ -358,7 +359,7 @@ fi
 
 # If persist is true, save parameters.
 if $persist; then
-	rm -f ~/$conffile
+	rm -f $conffile
 	write_file
 fi
 
