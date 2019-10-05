@@ -87,6 +87,7 @@
 #				Add error checking to config file	#
 #				write_file().				#
 #				Make conffile hold full path.		#
+#				Make write_file() (over)write file.	#
 #									#
 #########################################################################
 
@@ -201,12 +202,12 @@ trap_exit()
 # Setup trap.
 trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 
-# Function to write config file.
+# Function to (over)write config file.
 # No parameters.
 # No return value.
 write_file()
 {
-	echo "sourcedir=$sourcedir">>"$conffile"
+	echo "sourcedir=$sourcedir">$conffile
 	std_cmd_err_handler $?
 	echo "objectdir=$objectdir">>$conffile
 	std_cmd_err_handler $?
@@ -359,7 +360,6 @@ fi
 
 # If persist is true, save parameters.
 if $persist; then
-	rm -f $conffile
 	write_file
 fi
 
