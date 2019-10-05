@@ -91,7 +91,7 @@
 ##################
 # Init variables #
 ##################
-script_exit_code=0
+
 version=1.1.1				# set version variable
 outputprefix="$(basename $0): "
 packageversion=@pkgversion@		# Version of the complete package
@@ -163,28 +163,28 @@ output()
 	fi
 }
 
+# Standard function to tidy up and return exit code.
+# Parameters - 	$1 is the exit code.
+# No return value.
+script_exit()
+{
+	cd $currentdir
+	exit $1
+}
+
 # Standard function to test command error ($1 is $?) and exit if non-zero
 std_cmd_err_handler()
 {
 	if [ $1 != 0 ]; then
-		script_exit_code=$1
-		script_exit
+		script_exit $1
 	fi
-}
-
-# Standard function to tidy up and return exit code
-script_exit()
-{
-	cd $currentdir
-	exit $script_exit_code
 }
 
 # Standard trap exit function
 trap_exit()
 {
-script_exit_code=1
-output "Script terminating due to trap received. Code: "$script_exit_code 1
-script_exit
+output "Script terminating due to trap received. Code: 1" 1
+script_exit 1
 }
 
 # Setup trap
@@ -246,8 +246,7 @@ while true; do
 	-h|--help)
 		usage
 		shift
-		script_exit_code=0
-		script_exit
+		script_exit 0
 		;;
 	-i|--install)
 		install=true
@@ -281,24 +280,21 @@ while true; do
 		echo "$0 Script version "$version
 		echo "$0 Package version "$packageversion
 		shift
-		script_exit_code=0
-		script_exit
+		script_exit 0
 		;;
 	--)	shift
 		break
 		;;
-	*)	script_exit_code=1
-		output "Internal error." 1
-		script_exit
+	*)	output "Internal error." 1
+		script_exit 1
 		;;
 	esac
 done
 
 # Script must have one more argument, the directory above base level.
 if [ $# = 0 ]; then
-	script_exit_code=1
 	output "Directory above base must be specified." 1
-	script_exit
+	script_exit 1
 fi
 
 # This is the directory above source and build directories.
@@ -307,48 +303,41 @@ shift
 
 # Script does not accept other arguments.
 if [ $# -gt 0 ]; then
-	script_exit_code=1
 	output "Script does not accept further arguments: $1" 1
-	script_exit
+	script_exit 1
 fi
 
 # If only persist flag set then nothing to do, exit.
 if [ $# = 1 -a "$1" = "-p" ]; then
-	script_exit_code=0
-	script_exit
+	script_exit 0
 fi
 
 # n and u flags cannot both be set.
 if $new && $update; then
-	script_exit_code=1
 	output "-n and -u cannot both be set." 1
-	script_exit
+	script_exit 1
 fi
 
 # Check source directory exists and is readable.
 if [ ! -d "$sourcedir/$abovebasedir" ]; then
-	script_exit_code=1
 	output "Source directory not valid - $sourcedir/$abovebasedir" 1
-	script_exit
+	script_exit 1
 fi
 
 if [ ! -r "$sourcedir/$abovebasedir" ]; then
-	script_exit_code=1
 	output "Source directory not accessible - $sourcedir/$abovebasedir" 1
-	script_exit
+	script_exit 1
 fi
 
 # Check kernel config file exists and is readable.
 if [ ! -f "$kernconfigfile" ]; then
-	script_exit_code=1
 	output "Kernel config file not valid." 1
-	script_exit
+	script_exit 1
 fi
 
 if [ ! -r "$kernconfigfile" ]; then
-	script_exit_code=1
 	output "Kernel config file not accessible." 1
-	script_exit
+	script_exit 1
 fi
 
 # If persist is true, save parameters.
@@ -456,6 +445,6 @@ fi
 
 
 # And exit
-output "Script complete with exit code: "$script_exit_code $script_exit_code
-script_exit
+output "Script complete with exit code: 0" 0
+script_exit 0
 
