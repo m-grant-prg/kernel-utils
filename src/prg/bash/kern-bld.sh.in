@@ -82,6 +82,7 @@
 #				symbols.				#
 # 05/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
 #				Make loops and ifs C shape.		#
+#				Use true booleans.			#
 #									#
 #########################################################################
 
@@ -96,13 +97,13 @@ packageversion=@pkgversion@		# Version of the complete package
 
 concurrency=""
 conffile=".kern-bld.conf"		# Conf file for this script
-install=FALSE
+install=false
 kernconfigfile=""			# Full path to Kernel config file
-new=FALSE
+new=false
 objectdir=""
-persist=FALSE
+persist=false
 sourcedir=""
-update=FALSE
+update=false
 
 currentdir=$(pwd)
 
@@ -232,7 +233,7 @@ while true; do
 		script_exit
 		;;
 	-i|--install)
-		install=TRUE
+		install=true
 		shift
 		;;
 	-j|--jobs)
@@ -240,7 +241,7 @@ while true; do
 		shift 2
 		;;
 	-n|--new)
-		new=TRUE
+		new=true
 		shift
 		;;
 	-o|--object-dir)
@@ -248,7 +249,7 @@ while true; do
 		shift 2
 		;;
 	-p|--persist)
-		persist=TRUE
+		persist=true
 		shift
 		;;
 	-s|--source-dir)output "Internal error." 1
@@ -256,7 +257,7 @@ while true; do
 		shift 2
 		;;
 	-u|--update)
-		update=TRUE
+		update=true
 		shift
 		;;
 	-V|--version)
@@ -301,7 +302,7 @@ if [ $# = 1 -a "$1" = "-p" ]; then
 fi
 
 # n and u flags cannot both be set.
-if [ $new = TRUE -a $update = TRUE ]; then
+if $new && $update; then
 	script_exit_code=1
 	output "-n and -u cannot both be set." 1
 	script_exit
@@ -333,8 +334,8 @@ if [ ! -r "$kernconfigfile" ]; then
 	script_exit
 fi
 
-# If persist is TRUE, save parameters.
-if [ $persist = TRUE ]; then
+# If persist is true, save parameters.
+if $persist; then
 	rm -f ~/$conffile
 	write_file
 fi
@@ -344,7 +345,7 @@ fi
 cd $sourcedir/$abovebasedir
 std_cmd_err_handler $?
 
-if [ $new = TRUE ]; then
+if $new; then
 	# Clean
 	output "Performing make distclean..." 0
 	make O=$objectdir/$abovebasedir distclean
@@ -378,7 +379,7 @@ if [ $new = TRUE ]; then
 fi
 
 
-if [ $new = TRUE -o $update = TRUE ]; then
+if $new || $update; then
 	# olddefconfig
 	output "Performing make olddefconfig..." 0
 	make O=$objectdir/$abovebasedir olddefconfig
@@ -409,7 +410,7 @@ if [ $new = TRUE -o $update = TRUE ]; then
 fi
 
 
-if [ $install = TRUE ]; then
+if $install; then
 	########################
 	# Whilst the following code snippet "works", the target locations are
 	# questionable, as is the link from /lib/nmodules.
