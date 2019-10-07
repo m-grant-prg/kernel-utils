@@ -80,7 +80,7 @@
 #				silentoldconfig as it automatically	#
 #				takes the default value for any new	#
 #				symbols.				#
-# 05/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
+# 07/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
 #				Make loops and ifs C shape.		#
 #				Use true booleans.			#
 #				Refactor into functions.		#
@@ -89,6 +89,8 @@
 #				Make conffile hold full path.		#
 #				Make write_file() (over)write file.	#
 #				Only create conffile with --persist.	#
+#				Add permissions checks to		#
+#				proc_config_file().			#
 #									#
 #########################################################################
 
@@ -223,7 +225,12 @@ write_file()
 # No return value.
 proc_config_file()
 {
-	if [ -f $conffile ]; then
+	if [[ -f $conffile ]]; then
+		if [[ ! -r $conffile || ! -w $conffile ]]; then
+			output "Incorrect permissions for config file." 1
+			script_exit 1
+		fi
+
 		IFS="="
 		exec 3<$conffile
 		while read -u3 -ra input; do
