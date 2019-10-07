@@ -253,6 +253,105 @@ proc_config_file()
 	fi
 }
 
+# Process command line arguments with GNU getopt.
+# Parameters -	$1 is the command line.
+# No return value.
+proc_CL()
+{
+	local GETOPTTEMP
+	local tmpGETOPTTEMP
+
+	tmpGETOPTTEMP="getopt -o c:hij:no:ps:uV "
+	tmpGETOPTTEMP+="--long config-file:,help,install,jobs:,new,object-dir:,"
+	tmpGETOPTTMP+="persist,source-dir:,update,version"
+	GETOPTTEMP=$($tmpGETOPTTEMP -n "$0" -- "$@")
+	std_cmd_err_handler $?
+
+	eval set -- "$GETOPTTEMP"
+	std_cmd_err_handler $?
+
+	while true; do
+		case "$1" in
+		-c|--config-file)
+			kernconfigfile=$2
+			shift 2
+			;;
+		-h|--help)
+			usage
+			shift
+			script_exit 0
+			;;
+		-i|--install)
+			install=true
+			shift
+			;;
+		-j|--jobs)
+			concurrency=$2
+			shift 2
+			;;
+		-n|--new)
+			new=true
+			shift
+			;;
+		-o|--object-dir)
+			objectdir=$2
+			shift 2
+			;;
+		-p|--persist)
+			persist=true
+			shift
+			;;
+		-s|--source-dir)output "Internal error." 1
+			sourcedir=$2
+			shift 2
+			;;
+		-u|--update)
+			update=true
+			shift
+			;;
+		-V|--version)
+			echo "$0 Script version "$version
+			echo "$0 Package version "$packageversion
+			shift
+			script_exit 0
+			;;
+		--)	shift
+			break
+			;;
+		*)	output "Internal error." 1
+			script_exit 1
+			;;
+		esac
+	done
+
+	# Script must have one more argument, the directory above base level.
+	if [ $# = 0 ]; then
+		output "Directory above base must be specified." 1
+		script_exit 1
+	fi
+
+	# This is the directory above source and build directories.
+	abovebasedir=$1
+	shift
+
+	# Script does not accept other arguments.
+	if [ $# -gt 0 ]; then
+		output "Script does not accept further arguments: $1" 1
+		script_exit 1
+	fi
+
+	# If only persist flag set then nothing to do, exit.
+	if [ $# = 1 -a "$1" = "-p" ]; then
+		script_exit 0
+	fi
+
+	# n and u flags cannot both be set.
+	if $new && $update; then
+		output "-n and -u cannot both be set." 1
+		script_exit 1
+	fi
+}
+
 
 ########
 # Main #
@@ -260,95 +359,7 @@ proc_config_file()
 
 proc_config_file
 
-# Process command line arguments with GNU getopt.
-tmp="getopt -o c:hij:no:ps:uV "
-tmp+="--long config-file:,help,install,jobs:,new,object-dir:,persist,source-dir:,"
-tmp+="update,version "
-tmp+="-n $0 -- $@"
-GETOPTTEMP=`eval $tmp`
-eval set -- "$GETOPTTEMP"
-std_cmd_err_handler $?
-
-while true; do
-	case "$1" in
-	-c|--config-file)
-		kernconfigfile=$2
-		shift 2
-		;;
-	-h|--help)
-		usage
-		shift
-		script_exit 0
-		;;
-	-i|--install)
-		install=true
-		shift
-		;;
-	-j|--jobs)
-		concurrency=$2
-		shift 2
-		;;
-	-n|--new)
-		new=true
-		shift
-		;;
-	-o|--object-dir)
-		objectdir=$2
-		shift 2
-		;;
-	-p|--persist)
-		persist=true
-		shift
-		;;
-	-s|--source-dir)output "Internal error." 1
-		sourcedir=$2
-		shift 2
-		;;
-	-u|--update)
-		update=true
-		shift
-		;;
-	-V|--version)
-		echo "$0 Script version "$version
-		echo "$0 Package version "$packageversion
-		shift
-		script_exit 0
-		;;
-	--)	shift
-		break
-		;;
-	*)	output "Internal error." 1
-		script_exit 1
-		;;
-	esac
-done
-
-# Script must have one more argument, the directory above base level.
-if [ $# = 0 ]; then
-	output "Directory above base must be specified." 1
-	script_exit 1
-fi
-
-# This is the directory above source and build directories.
-abovebasedir=$1
-shift
-
-# Script does not accept other arguments.
-if [ $# -gt 0 ]; then
-	output "Script does not accept further arguments: $1" 1
-	script_exit 1
-fi
-
-# If only persist flag set then nothing to do, exit.
-if [ $# = 1 -a "$1" = "-p" ]; then
-	script_exit 0
-fi
-
-# n and u flags cannot both be set.
-if $new && $update; then
-	output "-n and -u cannot both be set." 1
-	script_exit 1
-fi
+proc_CL "$@"
 
 # Check source directory exists and is readable.
 if [ ! -d "$sourcedir/$abovebasedir" ]; then
