@@ -218,32 +218,40 @@ write_file()
 	std_cmd_err_handler $?
 }
 
+# If config file exists, read it.
+# No parameters.
+# No return value.
+proc_config_file()
+{
+	if [ -f $conffile ]; then
+		IFS="="
+		exec 3<$conffile
+		while read -u3 -ra input; do
+			case ${input[0]} in
+			sourcedir)
+				sourcedir=${input[1]}
+				;;
+			objectdir)
+				objectdir=${input[1]}
+				;;
+			kernconfigfile)
+				kernconfigfile=${input[1]}
+				;;
+			concurrency)
+				concurrency=${input[1]}
+				;;
+			esac
+		done
+		exec 3<&-
+	fi
+}
+
 
 ########
 # Main #
 ########
-# If config file exists, read it.
-if [ -f $conffile ]; then
-	IFS="="
-	exec 3<$conffile
-	while read -u3 -ra input; do
-		case ${input[0]} in
-		sourcedir)
-			sourcedir=${input[1]}
-			;;
-		objectdir)
-			objectdir=${input[1]}
-			;;
-		kernconfigfile)
-			kernconfigfile=${input[1]}
-			;;
-		concurrency)
-			concurrency=${input[1]}
-			;;
-		esac
-	done
-	exec 3<&-
-fi
+
+proc_config_file
 
 # Process command line arguments with GNU getopt.
 tmp="getopt -o c:hij:no:ps:uV "
