@@ -225,12 +225,15 @@ write_file()
 # No return value.
 proc_config_file()
 {
+	local old_IFS
+
 	if [[ -f $conffile ]]; then
 		if [[ ! -r $conffile || ! -w $conffile ]]; then
 			output "Incorrect permissions for config file." 1
 			script_exit 1
 		fi
 
+		old_IFS=$IFS
 		IFS="="
 		exec 3<$conffile
 		while read -u3 -ra input; do
@@ -250,6 +253,7 @@ proc_config_file()
 			esac
 		done
 		exec 3<&-
+		IFS=$old_IFS
 	fi
 }
 
@@ -263,7 +267,7 @@ proc_CL()
 
 	tmpGETOPTTEMP="getopt -o c:hij:no:ps:uV "
 	tmpGETOPTTEMP+="--long config-file:,help,install,jobs:,new,object-dir:,"
-	tmpGETOPTTMP+="persist,source-dir:,update,version"
+	tmpGETOPTTEMP+="persist,source-dir:,update,version"
 	GETOPTTEMP=$($tmpGETOPTTEMP -n "$0" -- "$@")
 	std_cmd_err_handler $?
 
