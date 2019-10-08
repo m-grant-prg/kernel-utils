@@ -91,6 +91,8 @@
 #				Only create conffile with --persist.	#
 #				Add permissions checks to		#
 #				proc_config_file().			#
+#				Allow persist with any number of	#
+#				persistable arguments.			#
 #									#
 #########################################################################
 
@@ -342,11 +344,6 @@ proc_CL()
 	if [ $# -gt 0 ]; then
 		output "Script does not accept further arguments: $1" 1
 		script_exit 1
-	fi
-
-	# If only persist flag set then nothing to do, exit.
-	if [ $# = 1 -a "$1" = "-p" ]; then
-		script_exit 0
 	fi
 
 	# n and u flags cannot both be set.
