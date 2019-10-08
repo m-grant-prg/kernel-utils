@@ -301,7 +301,7 @@ proc_CL()
 			persist=true
 			shift
 			;;
-		-s|--source-dir)output "Internal error." 1
+		-s|--source-dir)
 			sourcedir=$2
 			shift 2
 			;;
