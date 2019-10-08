@@ -353,6 +353,36 @@ proc_CL()
 	fi
 }
 
+# Check argument validity.
+# No parameters.
+# No return value.
+check_args()
+{
+	local msg
+
+	if [ ! -d "$sourcedir/$abovebasedir" ]; then
+		msg="Source directory not valid - $sourcedir/$abovebasedir"
+		output "$msg" 1
+		script_exit 1
+	fi
+
+	if [ ! -r "$sourcedir/$abovebasedir" ]; then
+		msg="Source directory not readable - $sourcedir/$abovebasedir"
+		output "$msg" 1
+		script_exit 1
+	fi
+
+	if [ ! -f "$kernconfigfile" ]; then
+		output "Kernel config file not valid." 1
+		script_exit 1
+	fi
+
+	if [ ! -r "$kernconfigfile" ]; then
+		output "Kernel config file not readable." 1
+		script_exit 1
+	fi
+}
+
 
 ########
 # Main #
@@ -362,27 +392,7 @@ proc_config_file
 
 proc_CL "$@"
 
-# Check source directory exists and is readable.
-if [ ! -d "$sourcedir/$abovebasedir" ]; then
-	output "Source directory not valid - $sourcedir/$abovebasedir" 1
-	script_exit 1
-fi
-
-if [ ! -r "$sourcedir/$abovebasedir" ]; then
-	output "Source directory not accessible - $sourcedir/$abovebasedir" 1
-	script_exit 1
-fi
-
-# Check kernel config file exists and is readable.
-if [ ! -f "$kernconfigfile" ]; then
-	output "Kernel config file not valid." 1
-	script_exit 1
-fi
-
-if [ ! -r "$kernconfigfile" ]; then
-	output "Kernel config file not accessible." 1
-	script_exit 1
-fi
+check_args
 
 # If persist is true, save parameters.
 if $persist; then
