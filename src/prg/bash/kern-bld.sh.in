@@ -95,6 +95,7 @@
 #				persistable arguments.			#
 #				Use (( ... )) construct for numerics.	#
 #				Prefer [[ ... ]] construct AOT [ ... ].	#
+#				Prefer printf AOT echo.			#
 #									#
 #########################################################################
 
@@ -214,13 +215,13 @@ trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 # No return value.
 write_file()
 {
-	echo "sourcedir=$sourcedir">$conffile
+	printf "sourcedir=%s\n" $sourcedir >$conffile
 	std_cmd_err_handler $?
-	echo "objectdir=$objectdir">>$conffile
+	printf "objectdir=%s\n" $objectdir >>$conffile
 	std_cmd_err_handler $?
-	echo "kernconfigfile=$kernconfigfile">>$conffile
+	printf "kernconfigfile=%s\n" $kernconfigfile >>$conffile
 	std_cmd_err_handler $?
-	echo "concurrency=$concurrency">>$conffile
+	printf "concurrency=%s\n" $concurrency >>$conffile
 	std_cmd_err_handler $?
 }
 
@@ -318,8 +319,8 @@ proc_CL()
 			shift
 			;;
 		-V|--version)
-			echo "$0 Script version "$version
-			echo "$0 Package version "$packageversion
+			printf "%s Script version %s\n" $0 $version
+			printf "%s Package version %s\n" $0 $packageversion
 			shift
 			script_exit 0
 			;;
