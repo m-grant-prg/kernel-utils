@@ -1,8 +1,7 @@
-#! /usr/bin/env bash
 #########################################################################
 #									#
 # Script ID: src/man/1/Makefile.am					#
-# Author: Copyright (C) 2016-2018  Mark Grant				#
+# Author: Copyright (C) 2016-2019  Mark Grant				#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0					#
@@ -29,6 +28,7 @@
 #				then error out.				#
 # 10/02/2018	MG	1.0.4	Change file's header for new directory	#
 #				names.					#
+# 09/10/2019	MG	1.0.5	Remove unnecessary shebang.		#
 #									#
 #########################################################################
 

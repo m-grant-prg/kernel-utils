@@ -1,8 +1,7 @@
-#! /usr/bin/env bash
 #########################################################################
 #									#
 # Script ID: ./Makefile.am						#
-# Author: Copyright (C) 2016-2018  Mark Grant				#
+# Author: Copyright (C) 2016-2019  Mark Grant				#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0					#
@@ -35,6 +34,7 @@
 #				GitHub.					#
 #				Add install of standard GNU files like	#
 #				AUTHORS, etc.				#
+#				Remove unnecessary shebang.		#
 #									#
 #########################################################################
 
