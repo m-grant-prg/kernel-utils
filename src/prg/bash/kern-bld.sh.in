@@ -94,6 +94,7 @@
 #				Allow persist with any number of	#
 #				persistable arguments.			#
 #				Use (( ... )) construct for numerics.	#
+#				Prefer [[ ... ]] construct AOT [ ... ].	#
 #									#
 #########################################################################
 
@@ -361,24 +362,24 @@ check_args()
 {
 	local msg
 
-	if [ ! -d "$sourcedir/$abovebasedir" ]; then
+	if [[ ! -d "$sourcedir/$abovebasedir" ]]; then
 		msg="Source directory not valid - $sourcedir/$abovebasedir"
 		output "$msg" 1
 		script_exit 1
 	fi
 
-	if [ ! -r "$sourcedir/$abovebasedir" ]; then
+	if [[ ! -r "$sourcedir/$abovebasedir" ]]; then
 		msg="Source directory not readable - $sourcedir/$abovebasedir"
 		output "$msg" 1
 		script_exit 1
 	fi
 
-	if [ ! -f "$kernconfigfile" ]; then
+	if [[ ! -f "$kernconfigfile" ]]; then
 		output "Kernel config file not valid." 1
 		script_exit 1
 	fi
 
-	if [ ! -r "$kernconfigfile" ]; then
+	if [[ ! -r "$kernconfigfile" ]]; then
 		output "Kernel config file not readable." 1
 		script_exit 1
 	fi
