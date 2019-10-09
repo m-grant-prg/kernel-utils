@@ -423,33 +423,13 @@ new_config()
 	std_cmd_err_handler $status
 }
 
+# Perform prepare and make.
+# No parameters.
+# No return value.
+perform_build()
+{
+	local -i status
 
-########
-# Main #
-########
-
-proc_config_file
-
-proc_CL "$@"
-
-check_args
-
-# If persist is true, save parameters.
-if $persist; then
-	write_file
-fi
-
-
-# Now perform the requests
-cd $sourcedir/$abovebasedir
-std_cmd_err_handler $?
-
-if $new; then
-	new_config
-fi
-
-
-if $new || $update; then
 	# olddefconfig
 	output "Performing make olddefconfig..." 0
 	make O=$objectdir/$abovebasedir olddefconfig
@@ -477,6 +457,36 @@ if $new || $update; then
 	status=$?
 	output "make -j$concurrency completed with status "$status $status
 	std_cmd_err_handler $status
+}
+
+
+########
+# Main #
+########
+
+proc_config_file
+
+proc_CL "$@"
+
+check_args
+
+# If persist is true, save parameters.
+if $persist; then
+	write_file
+fi
+
+
+# Now perform the requests
+cd $sourcedir/$abovebasedir
+std_cmd_err_handler $?
+
+if $new; then
+	new_config
+fi
+
+
+if $new || $update; then
+	perform_build
 fi
 
 
