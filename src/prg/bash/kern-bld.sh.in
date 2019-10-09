@@ -119,7 +119,7 @@ currentdir=$(pwd)
 usage ()
 {
 cat << EOF
-Usage is $0 [OPTIONS]
+Usage is $0 [OPTIONS] 'Directory above base'
 	[OPTIONS] are:-
 	-c or --config-file config-filename
 		Full path to the kernel config file to be copied in. Only valid
