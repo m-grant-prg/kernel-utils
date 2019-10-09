@@ -61,10 +61,15 @@ values for future defaults
 
 -V, --version prints version information
 EXIT STATUS
-0 - success
-
-1 - failure
-
+0 - Success
+.br
+1 - General error
+.br
+64 - Command line usage error
+.br
+66 - Cannot open input
+.br
+77 - Permission denied
 EXAMPLE
 kern-bld.sh -ups /home/mg/kernel/source -o /home/mg/kernel/build stable
 
@@ -76,7 +81,7 @@ Written by Mark Grant.
 REPORTING BUGS
 Report bugs to <m.grant.prg@gmail.com>
 COPYRIGHT
-Copyright 2016-2018 Mark Grant.
+Copyright 2016-2019 Mark Grant.
 .br
 License GPLv3+: GNU GPL version 3 or later
 .br
