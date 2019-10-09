@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! @bashlocation@
 #########################################################################
 #									#
 #	kern-bld.sh is automatically generated,				#
@@ -109,6 +109,7 @@
 #				Prefer printf AOT echo.			#
 #				Introduce more meaningful exit codes.	#
 #				Tidy up variable scope.			#
+#				Use bash location from configure.	#
 #									#
 #########################################################################
 
