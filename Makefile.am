@@ -31,6 +31,8 @@
 # 31/10/2018	MG	1.0.6	Change srctarball target to build with	#
 #				src between package name and version in	#
 #				filename.				#
+# 09/10/2019	MG	1.0.7	Make source tarball the same as from	#
+#				GitHub.					#
 #									#
 #########################################################################
 
@@ -44,7 +46,7 @@ SUBDIRS += src/prg/bash
 
 srctarball:
 	@cwd="$${PWD}" && \
-	targ="$${cwd}/@PACKAGE_TARNAME@-src-@PACKAGE_VERSION@.tar.gz" && \
+	targ="$${cwd}/@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz" && \
 	cd @srcdir@ && \
 	echo "making srctarball from @srcdir@" && \
 	echo "GA	$${targ}" && \

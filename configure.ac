@@ -60,6 +60,7 @@
 #				probably use the source tarball rather	#
 #				than a dist tarball.			#
 # 09/10/2019	MG	1.1.0	Re-vamp to new standard layout.		#
+#				Remove leading v in package version.	#
 #									#
 #########################################################################
 
@@ -79,7 +80,7 @@ AC_PREREQ([2.69])
 # can be used by ac output and / or the sed setup below to substitute bookmarks
 # in source files.
 #
-AC_INIT(Kernel Utilities, v1.0.15, m.grant.prg@gmail.com, kernel-utils)
+AC_INIT(Kernel Utilities, 1.0.15, m.grant.prg@gmail.com, kernel-utils)
 
 AC_MSG_NOTICE(initialisation and setup)
 
