@@ -80,7 +80,7 @@
 #				silentoldconfig as it automatically	#
 #				takes the default value for any new	#
 #				symbols.				#
-# 07/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
+# 09/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
 #				Make loops and ifs C shape.		#
 #				Use true booleans.			#
 #				Refactor into functions.		#
@@ -383,28 +383,13 @@ check_args()
 	fi
 }
 
+# Prepare a new config file.
+# No parameters.
+# No return value.
+new_config()
+{
+	local -i status
 
-########
-# Main #
-########
-
-proc_config_file
-
-proc_CL "$@"
-
-check_args
-
-# If persist is true, save parameters.
-if $persist; then
-	write_file
-fi
-
-
-# Now perform the requests
-cd $sourcedir/$abovebasedir
-std_cmd_err_handler $?
-
-if $new; then
 	# Clean
 	output "Performing make distclean..." 0
 	make O=$objectdir/$abovebasedir distclean
@@ -428,6 +413,7 @@ if $new; then
 	output "Performing make localmodconfig..." 0
 	make O=$objectdir/$abovebasedir LSMOD=$objectdir/mylsmod.txt \
 		localmodconfig
+	status=$?
 	output "make localmodconfig completed with status "$status $status
 	std_cmd_err_handler $status
 	output "Remove lsmod input file..." 0
@@ -435,6 +421,31 @@ if $new; then
 	status=$?
 	output "lsmod input file removal completed with status "$status $status
 	std_cmd_err_handler $status
+}
+
+
+########
+# Main #
+########
+
+proc_config_file
+
+proc_CL "$@"
+
+check_args
+
+# If persist is true, save parameters.
+if $persist; then
+	write_file
+fi
+
+
+# Now perform the requests
+cd $sourcedir/$abovebasedir
+std_cmd_err_handler $?
+
+if $new; then
+	new_config
 fi
 
 
