@@ -33,6 +33,8 @@
 #				filename.				#
 # 09/10/2019	MG	1.0.7	Make source tarball the same as from	#
 #				GitHub.					#
+#				Add install of standard GNU files like	#
+#				AUTHORS, etc.				#
 #									#
 #########################################################################
 
@@ -42,6 +44,13 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = src/man/1
 SUBDIRS += src/prg/bash
+
+
+doc_DATA = AUTHORS ChangeLog COPYING NEWS README
+
+
+EXTRA_DIST = $(srcdir)/AUTHORS $(srcdir)/ChangeLog $(srcdir)/COPYING \
+		$(srcdir)/NEWS $(srcdir)/README
 
 
 srctarball:
