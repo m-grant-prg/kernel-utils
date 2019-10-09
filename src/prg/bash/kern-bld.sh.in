@@ -459,6 +459,39 @@ perform_build()
 	std_cmd_err_handler $status
 }
 
+# Perform installation.
+# No parameters.
+# No return value.
+perform_install()
+{
+	local -i status
+
+	########################
+	# Whilst the following code snippet "works", the target locations are
+	# questionable, as is the link from /lib/nmodules.
+	#
+	# output "Performing kernel header install..." 0
+	# sudo make headers_install \
+	#		INSTALL_HDR_PATH=/usr/src/linux-headers-4.10.0
+	# status=$?
+	# std_cmd_err_handler $status
+	# sudo mkdir -p /lib/modules/4.10.0
+	# status=$?
+	# std_cmd_err_handler $status
+	# sudo ln -s /usr/src/linux-headers-4.10.0 /lib/modules/4.10.0/build
+	# status=$?
+	# output "Kernel header install completed with status "$status $status
+	# std_cmd_err_handler $status
+	########################
+
+
+	output "Performing kernel install..." 0
+	sudo make O=$objectdir/$abovebasedir modules_install install
+	status=$?
+	output "Kernel install completed with status "$status $status
+	std_cmd_err_handler $status
+}
+
 
 ########
 # Main #
@@ -491,32 +524,8 @@ fi
 
 
 if $install; then
-	########################
-	# Whilst the following code snippet "works", the target locations are
-	# questionable, as is the link from /lib/nmodules.
-	#
-	# output "Performing kernel header install..." 0
-	# sudo make headers_install \
-	#		INSTALL_HDR_PATH=/usr/src/linux-headers-4.10.0
-	# status=$?
-	# std_cmd_err_handler $status
-	# sudo mkdir -p /lib/modules/4.10.0
-	# status=$?
-	# std_cmd_err_handler $status
-	# sudo ln -s /usr/src/linux-headers-4.10.0 /lib/modules/4.10.0/build
-	# status=$?
-	# output "Kernel header install completed with status "$status $status
-	# std_cmd_err_handler $status
-	########################
-
-
-	output "Performing kernel install..." 0
-	sudo make O=$objectdir/$abovebasedir modules_install install
-	status=$?
-	output "Kernel install completed with status "$status $status
-	std_cmd_err_handler $status
+	perform_install
 fi
-
 
 # And exit
 output "Script complete with exit code: 0" 0
