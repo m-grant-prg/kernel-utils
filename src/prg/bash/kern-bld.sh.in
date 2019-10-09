@@ -93,6 +93,7 @@
 #				proc_config_file().			#
 #				Allow persist with any number of	#
 #				persistable arguments.			#
+#				Use (( ... )) construct for numerics.	#
 #									#
 #########################################################################
 
@@ -331,7 +332,7 @@ proc_CL()
 	done
 
 	# Script must have one more argument, the directory above base level.
-	if [ $# = 0 ]; then
+	if (( ! $# )); then
 		output "Directory above base must be specified." 1
 		script_exit 1
 	fi
@@ -341,7 +342,7 @@ proc_CL()
 	shift
 
 	# Script does not accept other arguments.
-	if [ $# -gt 0 ]; then
+	if (( $# )); then
 		output "Script does not accept further arguments: $1" 1
 		script_exit 1
 	fi
