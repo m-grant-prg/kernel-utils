@@ -17,19 +17,7 @@
 # Purpose:								#
 # Builds the specified kernel in the specified manner.			#
 #						     		 	#
-# Syntax:      kern-bld.sh [OPTIONS]					#
-#			[OPTIONS] are:-					#
-#	-c or --config-file 'config-filename' Full path to the kernel	#
-#		config file to be copied in. Only valid with -n option.	#
-#	-h or --help Displays usage information.			#
-#	-i or --install Install the built kernel.			#
-#	-n or --new Build a kernel using a newly copied config file.	#
-#	-o or --object-dir 'object-directory' Parallel build base 	#
-#		directory for object files.				#
-#	-p or --persist Saves command line options for future use.	#
-#	-s or --source-dir 'source-directory' Base directory for source.#
-#	-u or --update Build a kernel using the in-place config file.	#
-#	-V or --version Displays version information.			#
+# Syntax:      kern-bld.sh [OPTIONS]	'Directory above base'		#
 #									#
 # Exit Codes:	0 - success						#
 #		1 - failure						#
