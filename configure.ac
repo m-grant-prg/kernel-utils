@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: GPL-3.0					#
 #									#
 # Purpose:								#
-#	AutoConf script file to configure kernel-utils project.		#
+# AutoConf script file to configure kernel-utils project.		#
 #									#
 # configure cmd line syntax:-						#
 # ./configure								#
