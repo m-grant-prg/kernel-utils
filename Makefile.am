@@ -30,16 +30,25 @@
 # 31/10/2018	MG	1.0.6	Change srctarball target to build with	#
 #				src between package name and version in	#
 #				filename.				#
-# 09/10/2019	MG	1.0.7	Make source tarball the same as from	#
+# 10/10/2019	MG	1.0.7	Make source tarball the same as from	#
 #				GitHub.					#
 #				Add install of standard GNU files like	#
 #				AUTHORS, etc.				#
 #				Remove unnecessary shebang.		#
+#				To enable make distcheck to work, any	#
+#				hard-coded paths requiring permissions	#
+#				such as /etc or fixed locations such as	#
+#				/usr/share/java must be accommodated,	#
+#				so set the configure flags to be used	#
+#				by make distcheck.			#
 #									#
 #########################################################################
 
 
 ACLOCAL_AMFLAGS = -I m4
+
+
+AM_DISTCHECK_CONFIGURE_FLAGS =
 
 
 SUBDIRS = src/man/1
