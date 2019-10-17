@@ -1,3 +1,50 @@
+2019-10-17 v1.1.0 Mark Grant <m.grant.prg@gmail.com>
+	*  at: Update bootstrap.sh to v1.4.5
+	at: configure.ac: Fix header comment formatting
+	travis: Initial setup
+	at: Set configure args for distcheck in top makefile
+	git: Update project root gitignore to v1.0.2
+	at: README: Update bootstrap.sh section
+	man: Update Copyright statement format
+	at: README: Add Copyright statement
+	at: README: Make package install reference generic
+	at: Remove unnecessary shebangs from Makefile.ams
+	at: Install standard GNU files such as AUTHORS
+	at: Change source tarball name to equal GitHub
+	at: bash: Use bash location from configure
+	at: Revamp configure.ac to new standard layout
+	bash: Tidy up variable scope
+	bash: man: Use more meaningful exit codes
+	bash: Correct help text on syntax
+	bash: Remove duplicate info in file header
+	bash: Prefer printf AOT echo
+	bash: Prefer [[ ... ]] construct AOT [ ... ]
+	bash: Use (( ... )) construct for numerics
+	bash: Refactor installation into a function
+	bash: Refactor prepare and make into a function
+	bash: Refactor create new config file into function
+	bash: Refactor CLA validity checking into function
+	bash: Allow persist with any number of arguments
+	bash: Fix getopt processing
+	bash: Fix copy and paste error
+	bash: Refactor CL processing into function
+	bash: Add permissions checks to proc_config_file()
+	bash: Refactor config file read into function
+	bash: Only create conffile with --persist option
+	bash: Make write_file() (over)write file
+	bash: Make conffile contain full path
+	bash: Add error checking to config write_file()
+	bash: Standardise function header comments
+	bash: Standardise trap handling
+	bash: Standardise std_cmd_err_handler()
+	bash: Standardise script_exit()
+	bash: Standardise output()
+	bash: Refactor help text into function
+	bash: Use true booleans
+	bash: Make ifs and loops C shape
+	bash: Do not hardcode outputprefix
+	kern-bld.sh script now at version 1.1.1
+
 2018-10-31 v 1.0.15 Mark Grant <m.grant.prg@gmail.com>
 	*  srctarball to use -src- in filename
 	kern-bld.sh script still at version 1.0.11
