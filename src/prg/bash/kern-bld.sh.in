@@ -113,6 +113,7 @@
 # 21/12/2019	MG	1.1.2	Ensure CONFIG_SYSTEM_TRUSTED_KEYS is	#
 #				de-selected.				#
 #				Ensure CONFIG_STAGING is set to n.	#
+#				Re-factor new and update config files.	#
 #									#
 #########################################################################
 
@@ -427,8 +428,22 @@ new_config()
 	# Amend config file parameters as required
 	sed -ri '/CONFIG_SYSTEM_TRUSTED_KEYS/s/=.+/=""/g' \
 		$objectdir/$abovebasedir/.config
-	std_cmd_err_handler $status
+	std_cmd_err_handler $?
 	sed -ri '/CONFIG_STAGING=/s/=.+/=n/g' $objectdir/$abovebasedir/.config
+	std_cmd_err_handler $?
+
+	# olddefconfig
+	output "Performing make olddefconfig..." 0
+	make O=$objectdir/$abovebasedir olddefconfig
+	status=$?
+	output "make olddefconfig completed with status "$status $status
+	std_cmd_err_handler $status
+
+	# prepare
+	output "Performing make prepare..." 0
+	make O=$objectdir/$abovebasedir prepare
+	status=$?
+	output "make prepare completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# LSMOD
@@ -450,10 +465,10 @@ new_config()
 	std_cmd_err_handler $status
 }
 
-# Perform prepare and make.
+# Update an existing config file.
 # No parameters.
 # No return value.
-perform_build()
+update_config()
 {
 	local -i status
 
@@ -464,18 +479,27 @@ perform_build()
 	output "make olddefconfig completed with status "$status $status
 	std_cmd_err_handler $status
 
-	# menuconfig
-	output "Performing make menuconfig..." 0
-	make O=$objectdir/$abovebasedir menuconfig
-	status=$?
-	output "make menuconfig completed with status "$status $status
-	std_cmd_err_handler $status
-
 	# prepare
 	output "Performing make prepare..." 0
 	make O=$objectdir/$abovebasedir prepare
 	status=$?
 	output "make prepare completed with status "$status $status
+	std_cmd_err_handler $status
+}
+
+
+# Make menuconfig and make.
+# No parameters.
+# No return value.
+perform_build()
+{
+	local -i status
+
+	# menuconfig
+	output "Performing make menuconfig..." 0
+	make O=$objectdir/$abovebasedir menuconfig
+	status=$?
+	output "make menuconfig completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# Actual make
@@ -535,7 +559,6 @@ if $persist; then
 	write_file
 fi
 
-
 # Now perform the requests
 cd $sourcedir/$abovebasedir
 std_cmd_err_handler $?
@@ -544,11 +567,13 @@ if $new; then
 	new_config
 fi
 
+if $update; then
+	update_config
+fi
 
 if $new || $update; then
 	perform_build
 fi
-
 
 if $install; then
 	perform_install
