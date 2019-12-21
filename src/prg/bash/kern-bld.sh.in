@@ -112,6 +112,7 @@
 #				Use bash location from configure.	#
 # 21/12/2019	MG	1.1.2	Ensure CONFIG_SYSTEM_TRUSTED_KEYS is	#
 #				de-selected.				#
+#				Ensure CONFIG_STAGING is set to n.	#
 #									#
 #########################################################################
 
@@ -426,6 +427,8 @@ new_config()
 	# Amend config file parameters as required
 	sed -ri '/CONFIG_SYSTEM_TRUSTED_KEYS/s/=.+/=""/g' \
 		$objectdir/$abovebasedir/.config
+	std_cmd_err_handler $status
+	sed -ri '/CONFIG_STAGING=/s/=.+/=n/g' $objectdir/$abovebasedir/.config
 	std_cmd_err_handler $status
 
 	# LSMOD
