@@ -110,6 +110,8 @@
 #				Introduce more meaningful exit codes.	#
 #				Tidy up variable scope.			#
 #				Use bash location from configure.	#
+# 21/12/2019	MG	1.1.2	Ensure CONFIG_SYSTEM_TRUSTED_KEYS is	#
+#				de-selected.				#
 #									#
 #########################################################################
 
@@ -118,7 +120,7 @@
 # Init variables #
 ##################
 
-readonly version=1.1.1			# Script version
+readonly version=1.1.2			# Script version
 readonly outputprefix="$(basename $0): "
 readonly packageversion=@pkgversion@	# Package version
 
@@ -419,6 +421,11 @@ new_config()
 	cp -v $kernconfigfile $objectdir/$abovebasedir/.config
 	status=$?
 	output "Copy completed with status "$status $status
+	std_cmd_err_handler $status
+
+	# Amend config file parameters as required
+	sed -ri '/CONFIG_SYSTEM_TRUSTED_KEYS/s/=.+/=""/g' \
+		$objectdir/$abovebasedir/.config
 	std_cmd_err_handler $status
 
 	# LSMOD
