@@ -80,7 +80,7 @@ AC_PREREQ([2.69])
 # can be used by ac output and / or the sed setup below to substitute bookmarks
 # in source files.
 #
-AC_INIT(Kernel Utilities, 1.1.0+rc2, m.grant.prg@gmail.com, kernel-utils)
+AC_INIT(Kernel Utilities, 1.1.1, m.grant.prg@gmail.com, kernel-utils)
 
 AC_MSG_NOTICE(initialisation and setup)
 
