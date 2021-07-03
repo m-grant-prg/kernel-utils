@@ -1,3 +1,17 @@
+2021-07-03 v1.1.1 Mark Grant <m.grant.prg@gmail.com>
+	* at: Upgrade bootstrap.sh to v1.4.9
+	git: Add gitattributes file
+	git: Add mailmap file
+	travis: Stop using Travis
+	actions: Initial build action setup
+	at: lxcu: Add lxc test build setup
+	travis: Bionic is the new minimum release
+	at: README: Update Copyright for 2020
+	at: README: Correct git command
+	bash: Re-factor config file handling
+	bash: Ensure CONFIG_STAGING is n in new config file
+	bash: Remove key requirement in new config file
+
 2019-10-17 v1.1.0 Mark Grant <m.grant.prg@gmail.com>
 	*  at: Update bootstrap.sh to v1.4.5
 	at: configure.ac: Fix header comment formatting
