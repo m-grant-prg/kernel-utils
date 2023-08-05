@@ -1,7 +1,7 @@
 #########################################################################
 #									#
 # Script ID: ./configure.ac						#
-# Author: Copyright (C) 2016-2019, 2021  Mark Grant			#
+# Author: Copyright (C) 2016-2019, 2021, 2023  Mark Grant		#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0-only					#
@@ -66,6 +66,7 @@
 #				further package version information.	#
 #				Tighten SPDX tag.			#
 #				Add AC_COPYRIGHT macro.			#
+# 05/08/2023	MG	1.1.2	Update Copyright for 2023.		#
 #									#
 #########################################################################
 
@@ -76,11 +77,11 @@
 #					#
 #########################################
 
-AC_COPYRIGHT([Copyright (C) 2016-2019, 2021  Mark Grant
+AC_COPYRIGHT([Copyright (C) 2016-2019, 2021, 2023  Mark Grant
 	      This script is free to copy or distribute under the terms set out
 	      in the package license. See COPYING for details.])
 
-AC_REVISION([$Revision: 1.1.1 $])
+AC_REVISION([$Revision: 1.1.2 $])
 
 AC_PREREQ([2.69])
 
