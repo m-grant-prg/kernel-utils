@@ -8,8 +8,7 @@
 
 #########################################################################
 #									#
-# Script ID: kern-bld.sh						#
-# Author: Copyright (C) 2016-2019, 2021  Mark Grant			#
+# Author: Copyright (C) 2016-2019, 2021, 2024  Mark Grant		#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0-only					#
@@ -47,83 +46,12 @@
 #									#
 #########################################################################
 
-#########################################################################
-#									#
-# Changelog								#
-#									#
-# Date		Author	Version	Description				#
-#									#
-# 06/07/2016	MG	1.0.1	Created.				#
-# 08/07/2016	MG	1.0.2	Change command line parameters from	#
-#				objectdir & sourcedir to object-dir &	#
-#				source-dir.				#
-#				Remove hard-coded source and build	#
-#				directories from path. Now just uses	#
-#				object-dir & source-dir as entered.	#
-#				Due to above change the lsmod input file#
-#				is now created in the actual source	#
-#				directory, so remove after use.		#
-#				Add command line argument option for	#
-#				specifying the kernel config file to	#
-#				copy in.				#
-#				Ensure cd back to original directory.	#
-# 09/07/2016	MG	1.0.3	Create and remove temporary lsmod file	#
-#				in the build directory instead of the	#
-#				source directory.			#
-# 12/07/2016	MG	1.0.4	Kernel install needs root privileges so	#
-#				using sudo eliminates requirement to do	#
-#				so from shell prompt.			#
-# 23/02/2017	MG	1.0.5	Add make silentoldconfig and make	#
-#				prepare to both new and update to check	#
-#				for new config options.			#
-# 29/06/2017	MG	1.0.6	Remove exclusions from lsmod output as	#
-#				it causes a VirtualBox guest screen	#
-#				size issue. Probably a change due to	#
-#				Ubuntu 17.04.				#
-# 01/07/2017	MG	1.0.7	Enforce 80 column rule.			#
-# 28/08/2017	MG	1.0.8	Add config file param concurrency and	#
-#				command line arguments -j --jobs to be	#
-#				fed to the build as number of jobs.	#
-# 08/12/2017	MG	1.0.9	Add SPDX license tags to source files.	#
-# 08/12/2017	NG	1.0.10	Adopt standard exit codes; 0 on success	#
-#				1 on failure.				#
-# 29/04/2018	MG	1.0.11	Use olddefconfig instead of		#
-#				silentoldconfig as it automatically	#
-#				takes the default value for any new	#
-#				symbols.				#
-# 09/10/2019	MG	1.1.1	Do not hardcode outputprefix.		#
-#				Make loops and ifs C shape.		#
-#				Use true booleans.			#
-#				Refactor into functions.		#
-#				Add error checking to config file	#
-#				write_file().				#
-#				Make conffile hold full path.		#
-#				Make write_file() (over)write file.	#
-#				Only create conffile with --persist.	#
-#				Add permissions checks to		#
-#				proc_config_file().			#
-#				Allow persist with any number of	#
-#				persistable arguments.			#
-#				Use (( ... )) construct for numerics.	#
-#				Prefer [[ ... ]] construct AOT [ ... ].	#
-#				Prefer printf AOT echo.			#
-#				Introduce more meaningful exit codes.	#
-#				Tidy up variable scope.			#
-#				Use bash location from configure.	#
-# 21/12/2019	MG	1.1.2	Ensure CONFIG_SYSTEM_TRUSTED_KEYS is	#
-#				de-selected.				#
-#				Ensure CONFIG_STAGING is set to n.	#
-#				Re-factor new and update config files.	#
-# 24/11/2021	MG	1.1.3	Tighten SPDX tag.			#
-#									#
-#########################################################################
-
 
 ##################
 # Init variables #
 ##################
 
-readonly version=1.1.3			# Script version
+readonly version=1.1.4			# Script version
 readonly outputprefix="$(basename $0): "
 readonly packageversion=@pkgversion@	# Package version
 
