@@ -8,8 +8,8 @@
 # Purpose:								#
 # AutoConf script file to configure kernel-utils project.		#
 #									#
-# configure cmd line syntax:-						#
-# ./configure								#
+# cmd line syntax of standard configure:				#
+# ./configure --help							#
 #									#
 # Layout: (Only relevant sections will exist).				#
 # SECTION  1: Initialisation & Setup					#
