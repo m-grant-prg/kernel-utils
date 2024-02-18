@@ -16,7 +16,7 @@
 # Purpose:								#
 # Builds the specified kernel in the specified manner.			#
 #						     		 	#
-# Syntax:      kern-bld.sh [OPTIONS]	'Directory above base'		#
+# Syntax:	See usage().						#
 #									#
 # Exit codes used:-							#
 # Bash standard Exit Codes:	0 - success				#
@@ -75,11 +75,14 @@ readonly currentdir=$(pwd)
 # -h --help output.
 # No parameters
 # No return value
-usage ()
+usage()
 {
 cat << EOF
-Usage is $0 [OPTIONS] 'Directory above base'
-	[OPTIONS] are:-
+Usage is:-
+${0##*/} [-c] [-jX] [{-n|-u}] [-o] [-p] [-s] DIRECTORY_ABOVE_BASE
+${0##*/} {-h|-V}
+Usage is:-
+${0##*/} [OPTIONS] DIRECTORY_ABOVE_BASE
 	-c or --config-file config-filename
 		Full path to the kernel config file to be copied in. Only valid
 		with -n --new option
