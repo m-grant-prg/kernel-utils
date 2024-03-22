@@ -130,6 +130,7 @@ output()
 # No return value.
 script_exit()
 {
+	# shellcheck disable=SC2164	# We are exiting anyway.
 	cd "$currentdir"
 	exit "$1"
 }
@@ -494,6 +495,7 @@ if $persist; then
 fi
 
 # Now perform the requests
+# shellcheck disable=SC2164	# We are error checking anyway.
 cd "$sourcedir/$abovebasedir"
 std_cmd_err_handler $?
 
