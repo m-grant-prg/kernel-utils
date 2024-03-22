@@ -51,8 +51,7 @@
 # Init variables #
 ##################
 
-readonly version=1.1.4			# Script version
-readonly outputprefix="$(basename $0): "
+readonly version=1.1.5			# Script version
 readonly packageversion=@pkgversion@	# Package version
 
 concurrency=""
