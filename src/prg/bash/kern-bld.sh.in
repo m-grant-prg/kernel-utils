@@ -64,7 +64,8 @@ persist=false
 sourcedir=""
 update=false
 
-readonly currentdir=$(pwd)
+currentdir=$(pwd)
+readonly currentdir
 
 
 #############
