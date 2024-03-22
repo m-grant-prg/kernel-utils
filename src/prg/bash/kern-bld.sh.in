@@ -129,8 +129,8 @@ output()
 # No return value.
 script_exit()
 {
-	cd $currentdir
-	exit $1
+	cd "$currentdir"
+	exit "$1"
 }
 
 # Standard function to test command error and exit if non-zero.
@@ -139,7 +139,7 @@ script_exit()
 std_cmd_err_handler()
 {
 	if (( $1 )); then
-		script_exit $1
+		script_exit "$1"
 	fi
 }
 
@@ -153,7 +153,7 @@ trap_exit()
 
 	msg="Script terminating with exit code $exit_code due to trap received."
 	output "$msg" 1
-	script_exit $exit_code
+	script_exit "$exit_code"
 }
 
 # Setup trap.
@@ -164,13 +164,13 @@ trap trap_exit SIGHUP SIGINT SIGQUIT SIGTERM
 # No return value.
 write_file()
 {
-	printf "sourcedir=%s\n" $sourcedir >$conffile
+	printf "sourcedir=%s\n" "$sourcedir" >$conffile
 	std_cmd_err_handler $?
-	printf "objectdir=%s\n" $objectdir >>$conffile
+	printf "objectdir=%s\n" "$objectdir" >>$conffile
 	std_cmd_err_handler $?
-	printf "kernconfigfile=%s\n" $kernconfigfile >>$conffile
+	printf "kernconfigfile=%s\n" "$kernconfigfile" >>$conffile
 	std_cmd_err_handler $?
-	printf "concurrency=%s\n" $concurrency >>$conffile
+	printf "concurrency=%s\n" "$concurrency" >>$conffile
 	std_cmd_err_handler $?
 }
 
@@ -268,8 +268,8 @@ proc_CL()
 			shift
 			;;
 		-V|--version)
-			printf "%s Script version %s\n" $0 $version
-			printf "%s Package version %s\n" $0 $packageversion
+			printf "%s Script version %s\n" "$0" $version
+			printf "%s Package version %s\n" "$0" $packageversion
 			shift
 			script_exit 0
 			;;
@@ -344,53 +344,53 @@ new_config()
 
 	# Clean
 	output "Performing make distclean..." 0
-	make O=$objectdir/$abovebasedir distclean
+	make O="$objectdir/$abovebasedir" distclean
 	status=$?
 	output "make distclean completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# Copy config file
 	output "Copy in kernel .config file..." 0
-	cp -v $kernconfigfile $objectdir/$abovebasedir/.config
+	cp -v "$kernconfigfile" "$objectdir/$abovebasedir/.config"
 	status=$?
 	output "Copy completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# Amend config file parameters as required
 	sed -ri '/CONFIG_SYSTEM_TRUSTED_KEYS/s/=.+/=""/g' \
-		$objectdir/$abovebasedir/.config
+		"$objectdir/$abovebasedir/.config"
 	std_cmd_err_handler $?
-	sed -ri '/CONFIG_STAGING=/s/=.+/=n/g' $objectdir/$abovebasedir/.config
+	sed -ri '/CONFIG_STAGING=/s/=.+/=n/g' "$objectdir/$abovebasedir/.config"
 	std_cmd_err_handler $?
 
 	# olddefconfig
 	output "Performing make olddefconfig..." 0
-	make O=$objectdir/$abovebasedir olddefconfig
+	make O="$objectdir/$abovebasedir" olddefconfig
 	status=$?
 	output "make olddefconfig completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# prepare
 	output "Performing make prepare..." 0
-	make O=$objectdir/$abovebasedir prepare
+	make O="$objectdir/$abovebasedir" prepare
 	status=$?
 	output "make prepare completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# LSMOD
 	output "Prepare lsmod input..." 0
-	lsmod > $objectdir/mylsmod.txt
+	lsmod > "$objectdir/mylsmod.txt"
 	status=$?
 	output "lsmod output capture completed with status "$status $status
 	std_cmd_err_handler $status
 	output "Performing make localmodconfig..." 0
-	make O=$objectdir/$abovebasedir LSMOD=$objectdir/mylsmod.txt \
+	make O="$objectdir/$abovebasedir" LSMOD="$objectdir/mylsmod.txt" \
 		localmodconfig
 	status=$?
 	output "make localmodconfig completed with status "$status $status
 	std_cmd_err_handler $status
 	output "Remove lsmod input file..." 0
-	rm -v $objectdir/mylsmod.txt
+	rm -v "$objectdir/mylsmod.txt"
 	status=$?
 	output "lsmod input file removal completed with status "$status $status
 	std_cmd_err_handler $status
@@ -405,14 +405,14 @@ update_config()
 
 	# olddefconfig
 	output "Performing make olddefconfig..." 0
-	make O=$objectdir/$abovebasedir olddefconfig
+	make O="$objectdir/$abovebasedir" olddefconfig
 	status=$?
 	output "make olddefconfig completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# prepare
 	output "Performing make prepare..." 0
-	make O=$objectdir/$abovebasedir prepare
+	make O="$objectdir/$abovebasedir" prepare
 	status=$?
 	output "make prepare completed with status "$status $status
 	std_cmd_err_handler $status
@@ -428,14 +428,14 @@ perform_build()
 
 	# menuconfig
 	output "Performing make menuconfig..." 0
-	make O=$objectdir/$abovebasedir menuconfig
+	make O="$objectdir/$abovebasedir" menuconfig
 	status=$?
 	output "make menuconfig completed with status "$status $status
 	std_cmd_err_handler $status
 
 	# Actual make
 	output "Performing make -j$concurrency..." 0
-	make O=$objectdir/$abovebasedir -j$concurrency
+	make O="$objectdir/$abovebasedir" -j"$concurrency"
 	status=$?
 	output "make -j$concurrency completed with status "$status $status
 	std_cmd_err_handler $status
@@ -468,7 +468,7 @@ perform_install()
 
 
 	output "Performing kernel install..." 0
-	sudo make O=$objectdir/$abovebasedir modules_install install
+	sudo make O="$objectdir/$abovebasedir" modules_install install
 	status=$?
 	output "Kernel install completed with status "$status $status
 	std_cmd_err_handler $status
@@ -491,7 +491,7 @@ if $persist; then
 fi
 
 # Now perform the requests
-cd $sourcedir/$abovebasedir
+cd "$sourcedir/$abovebasedir"
 std_cmd_err_handler $?
 
 if $new; then
