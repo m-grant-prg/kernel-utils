@@ -1,9 +1,9 @@
 NAME
-kern-bld.sh - build a kernel
+kern-bld - build a kernel
 SYNOPSIS
-kern-bld.sh [-c] [-jX] [{-n|-u}] [-o] [-p] [-s] DIRECTORY_ABOVE_BASE
-kern-bld.sh {-h|-V}
-kern-bld.sh [OPTIONS] DIRECTORY_ABOVE_BASE
+kern-bld [-c] [-jX] [{-n|-u}] [-o] [-p] [-s] DIRECTORY_ABOVE_BASE
+kern-bld {-h|-V}
+kern-bld [OPTIONS] DIRECTORY_ABOVE_BASE
 DESCRIPTION
 This script will build a kernel with a new config file copied from an existing
 file, (usually a distro config file), or build a kernel with the in-place config
@@ -73,7 +73,7 @@ EXIT STATUS
 .br
 77 - Permission denied
 EXAMPLE
-kern-bld.sh -ups /home/mg/kernel/source -o /home/mg/kernel/build stable
+kern-bld -ups /home/mg/kernel/source -o /home/mg/kernel/build stable
 
 will build a kernel from source located in /home/mg/kernel/source/stable putting
 the built objects in /home/mg/kernel/build/stable. It will also store the 2

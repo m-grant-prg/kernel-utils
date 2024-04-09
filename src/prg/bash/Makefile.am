@@ -12,20 +12,18 @@
 #########################################################################
 
 
-kern-bld.sh: Makefile
+kern-bld: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
 	test -f ./$@.in || srcdir=$(srcdir)/; \
-	$(edit) $${srcdir}$(@F).in > $@.tmp
-
+	$(edit) $${srcdir}$(@F).sh.in > $@.tmp
 	mv $@.tmp $@
-
 	chmod a+x $@
+kern-bld: $(srcdir)/kern-bld.sh.in
 
-kern-bld.sh: $(srcdir)/kern-bld.sh.in
-
-bin_SCRIPTS = kern-bld.sh
+bin_SCRIPTS = kern-bld
 
 EXTRA_DIST = $(srcdir)/kern-bld.sh.in
 
-CLEANFILES = *.tmp kern-bld.sh
+CLEANFILES = *.tmp kern-bld
+

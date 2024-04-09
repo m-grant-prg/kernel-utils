@@ -12,7 +12,7 @@
 #########################################################################
 
 
-kern-bld.sh.1: Makefile
+kern-bld.1: Makefile
 	mkdir -p $(@D)
 	rm -f $@ $@.tmp
 	$(edit) $(srcdir)/$(@F).man.in > $@.tmp
@@ -30,11 +30,11 @@ kern-bld.sh.1: Makefile
 	fi; \
 	txt2manwrap $(@F) $$section "Kernel Utilities Manual" $@.tmp $@
 	rm -f $@.tmp
+kern-bld.1: $(srcdir)/kern-bld.1.man.in
 
-kern-bld.sh.1: $(srcdir)/kern-bld.sh.1.man.in
+man_MANS = kern-bld.1
 
-man_MANS = kern-bld.sh.1
+EXTRA_DIST = $(srcdir)/kern-bld.1.man.in
 
-EXTRA_DIST = $(srcdir)/kern-bld.sh.1.man.in
+CLEANFILES = *.tmp kern-bld.1
 
-CLEANFILES = *.tmp kern-bld.sh.1
