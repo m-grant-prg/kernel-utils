@@ -171,11 +171,6 @@ if test "x$ECHO" = "xno" ; then
 	AC_MSG_WARN(echo not found - needed at run time)
 fi
 
-AC_CHECK_PROG(PRINTF, printf, yes, no)
-if test "x$PRINTF" = "xno" ; then
-	AC_MSG_WARN(printf not found - needed at run time)
-fi
-
 AC_CHECK_PROG([GETOPT], [getopt], [yes], [no])
 if test "x$GETOPT" = "xno" ; then
 	AC_MSG_WARN(getopt not found - needed at run time)
@@ -184,6 +179,11 @@ fi
 AC_CHECK_PROG([LSMOD], [lsmod], [yes], [no])
 if test "x$LSMOD" = "xno" ; then
 	AC_MSG_WARN(lsmod not found - needed at run time)
+fi
+
+AC_CHECK_PROG(PRINTF, printf, yes, no)
+if test "x$PRINTF" = "xno" ; then
+	AC_MSG_WARN(printf not found - needed at run time)
 fi
 
 
