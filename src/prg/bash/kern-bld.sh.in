@@ -8,7 +8,7 @@
 
 #########################################################################
 #									#
-# Author: Copyright (C) 2016-2019, 2021, 2024  Mark Grant		#
+# Author: Copyright (C) 2016-2019, 2021, 2024, 2026  Mark Grant		#
 #									#
 # Released under the GPLv3 only.					#
 # SPDX-License-Identifier: GPL-3.0-only					#
@@ -51,7 +51,7 @@
 # Init variables #
 ##################
 
-readonly version=1.1.5			# Script version
+readonly version=1.1.6			# Script version
 readonly packageversion=@pkgversion@	# Package version
 
 concurrency=""
@@ -79,10 +79,10 @@ usage()
 {
 cat << EOF
 Usage is:-
-${0##*/} [-c] [-jX] [{-n|-u}] [-o] [-p] [-s] DIRECTORY_ABOVE_BASE
-${0##*/} {-h|-V}
+$(basename "$0") [-c] [-jX] [{-n|-u}] [-o] [-p] [-s] DIRECTORY_ABOVE_BASE
+$(basename "$0") {-h|-V}
 Usage is:-
-${0##*/} [OPTIONS] DIRECTORY_ABOVE_BASE
+$(basename "$0") [OPTIONS] DIRECTORY_ABOVE_BASE
 	-c or --config-file config-filename
 		Full path to the kernel config file to be copied in. Only valid
 		with -n --new option
