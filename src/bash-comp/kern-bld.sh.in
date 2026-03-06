@@ -1,0 +1,55 @@
+# shellcheck shell=bash
+#########################################################################
+#									#
+# Author: Copyright (C) 2026  Mark Grant				#
+#									#
+# Released under the GPLv3 only.					#
+# SPDX-License-Identifier: GPL-3.0-only					#
+#									#
+# Purpose:								#
+# Bash completion script.						#
+#									#
+#########################################################################
+
+
+_kern_bld_file_or_dir()
+{
+	local IFS=$'\n'
+	compopt -o filenames
+	# shellcheck disable=SC2207  # This is _the_ bash completion
+	# pattern, so leave it be.
+	COMPREPLY+=( $(compgen -"$1" -- "$2") )
+}
+
+_kern_bld()
+{
+	local cur prev OPTS
+
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	case $prev in
+	-c|--config-file)
+		_kern_bld_file_or_dir "f" "$cur"
+		return 0
+		;;
+	-o|--object-dir)
+		_kern_bld_file_or_dir "d" "$cur"
+		return 0
+		;;
+	-s|--source-dir)
+		_kern_bld_file_or_dir "d" "$cur"
+		return 0
+		;;
+	esac
+	OPTS="-c -h -i -j -n -o -p -s -u -V"
+	OPTS+=" --config-file --help --install --jobs --new --object-dir"
+	OPTS+=" --persist --source-dir --update --version"
+	# shellcheck disable=SC2207  # This is _the_ bash completion pattern,
+	# so leave it be.
+	COMPREPLY=( $(compgen -W "${OPTS[*]}" -- "$cur") )
+	_kern_bld_file_or_dir "d" "$cur"
+	return 0
+}
+complete -F _kern_bld kern-bld
+

@@ -51,7 +51,7 @@
 # Init variables #
 ##################
 
-readonly version=1.1.6			# Script version
+readonly version=1.1.7			# Script version
 readonly packageversion=@pkgversion@	# Package version
 
 concurrency=""
@@ -315,6 +315,11 @@ proc_CL()
 check_args()
 {
 	local msg
+
+	# Standardise directories to have no trailing slash
+	abovebasedir="${abovebasedir%/}"
+	sourcedir="${sourcedir%/}"
+	objectdir="${objectdir%/}"
 
 	if [[ ! -d "$sourcedir/$abovebasedir" ]]; then
 		msg="Source directory not valid - $sourcedir/$abovebasedir"

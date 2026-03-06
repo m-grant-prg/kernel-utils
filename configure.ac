@@ -8,8 +8,18 @@
 # Purpose:								#
 # AutoConf script file to configure kernel-utils project.		#
 #									#
-# cmd line syntax of standard configure:				#
-# ./configure --help							#
+# configure cmd line syntax:						#
+# ./configure	[--enable-bash-completion[={yes|no}]]			#
+#									#
+# Parameter defaults:							#
+#	When specified on the CL, but without the [={yes|no}], the	#
+#	default is yes.							#
+#									#
+# Parameters general description. For specifics please see inline	#
+# comments at the point of definition:-					#
+# --enable-bash-completion						#
+#	Used to include the bash-completion elements in the build.	#
+#	If not specified on the CL then the default is yes.		#
 #									#
 # Layout: (Only relevant sections will exist).				#
 # SECTION  1: Initialisation & Setup					#
@@ -92,6 +102,38 @@ AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects tar-pax])
 # ACLOCAL_AMFLAGS = -I m4 -I m4extra
 #
 AC_CONFIG_MACRO_DIR([m4])
+
+
+#########################################
+#					#
+# SECTION  3: Command line arguments	#
+#					#
+#########################################
+
+AC_MSG_NOTICE(checking command line arguments)
+
+#
+# The following allows for an enable-bash-completion=yes/no command line option.
+# If not specified on the CL the default is true.
+# The conditional BASH_COMPLETION is made available to the makefiles.
+#
+AC_ARG_ENABLE(bash_completion,
+	AS_HELP_STRING([--enable-bash-completion],
+		       [build to include bash-completion]),
+	[case "${enableval}" in
+		yes) enable_bash_completion=true ;;
+		no)  enable_bash_completion=false ;;
+		*)
+		AC_MSG_ERROR(bad value ${enableval} in enable-bash-completion);;
+	esac],enable_bash_completion=true)
+AM_CONDITIONAL(BASH_COMPLETION, test x$enable_bash_completion = xtrue)
+
+AC_MSG_CHECKING([whether to include bash-completion in the build])
+if test "x${enable_bash_completion}" = xtrue; then
+	AC_MSG_RESULT([yes])
+else
+	AC_MSG_RESULT([no])
+fi
 
 
 #########################################
@@ -279,6 +321,7 @@ AC_MSG_NOTICE(processing output files)
 
 # Project Makefiles to create.
 AC_CONFIG_FILES([Makefile
+		src/bash-comp/Makefile
 		src/man/1/Makefile
 		src/prg/bash/Makefile])
 
