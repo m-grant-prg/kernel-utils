@@ -1,3 +1,29 @@
+2026-03-20 v1.3.0 Mark Grant <m.grant.prg@gmail.com>
+	* build(deps): bump actions/checkout from 5 to 6
+	build(deps): bump actions/checkout from 4 to 5
+dependabot[bot] (2):
+
+	v1.3.0-rc2
+	at: bash-comp: bash: Add bash completion
+	bash: Use more common basename in usage()
+	at: Upgrade bootstrap.sh to v1.7.1
+	at: Remove old signature file before creating a new one
+	at: Upgrade bootstrap.sh to v1.7.0
+	at: Add sign_tarball target
+	at: Leave source tarball name same as distribution tarball
+	at: Update Copyright for 2026
+	at: Correct Copyright dates, checked via git history
+	Merge pull request #5 from m-grant-prg/dependabot/github_actions/tip/actions/checkout-6
+	at: Upgrade bootstrap.sh to v1.6.2
+	at: Upgrade bootstrap.sh to v1.6.1
+	Merge pull request #2 from m-grant-prg/dependabot/github_actions/tip/actions/checkout-5
+	v1.3.0-rc1
+	actions: Run on noble
+	actions: Set dependabot to target stable and old stable branches
+	at: Update Copyright for 2025
+	at: Re-order program checks alphabetically
+Mark Grant (19):
+
 2024-05-05 v1.2.2 Mark Grant <m.grant.prg@gmail.com>
 	* build(deps): bump actions/checkout from 2 to 4
 dependabot[bot] (1):
