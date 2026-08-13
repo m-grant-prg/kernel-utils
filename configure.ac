@@ -332,7 +332,6 @@ AC_MSG_NOTICE(processing additional checks and variables)
 AC_SUBST([edit], ["$SED \
 		-e 's|@abstopsrcdir[@]|\$(abs_top_srcdir)|g' \
 		-e 's|@abstopbuilddir[@]|\$(abs_top_builddir)|g' \
-		-e 's|@bashlocation[@]|\$(BASH)|g' \
 		-e 's|@envlocation[@]|\$(ENV)|g' \
 		-e 's|@pkgversion[@]|\$(pkgversion)|g' \
 		-e 's|@prefix[@]|\$(prefix)|g' \
